@@ -58,6 +58,11 @@ using namespace std;
 /**
  * Global state
  */
+uint16_t ASSETCHAINS_PORT = 8777;
+uint32_t ASSETCHAINS_MAGIC = 2387029918;
+uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
+char ASSETCHAINS_SYMBOL[16] = { "REVS" };
+uint64_t ASSETCHAINS_SUPPLY = 1000000;
 
 CCriticalSection cs_main;
 
