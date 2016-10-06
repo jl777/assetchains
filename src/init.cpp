@@ -910,7 +910,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     ASSETCHAINS_SYMBOL[1] = ((char *)&symbol)[1];
     ASSETCHAINS_SYMBOL[2] = ((char *)&symbol)[2];
     ASSETCHAINS_SYMBOL[3] = ((char *)&symbol)[3];
-
+    fprintf(stderr,"after args: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
     fDebug = !mapMultiArgs["-debug"].empty();
     // Special-case: if -debug=0/-nodebug is set, turn off debugging messages
     const vector<string>& categories = mapMultiArgs["-debug"];
