@@ -68,9 +68,9 @@ bin_PROGRAMS =
 TESTS =
 BENCHMARKS =
 
-if BUILD_BITCOIND
+#if BUILD_BITCOIND
   bin_PROGRAMS += assetchaind
-endif
+#endif
 
 if BUILD_BITCOIN_UTILS
   bin_PROGRAMS += bitcoin-cli bitcoin-tx
