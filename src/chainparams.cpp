@@ -21,6 +21,7 @@
 #include "uint256.h"
 
 #include <stdio.h>
+#include <pthread.h>
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -175,7 +176,7 @@ public:
             0
         };
         fprintf(stderr,"start thread to init chainparams\n");
-        if ( pthread_create(malloc(sizeof(pthread_t)),NULL,(void *)chainparams_commandline,(void *)&consensus) != 0 )
+        if ( pthread_create((pthread_t *)malloc(sizeof(pthread_t)),NULL,(void *)chainparams_commandline,(void *)&consensus) != 0 )
         {
             
         }
