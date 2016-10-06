@@ -19,7 +19,7 @@ extern uint32_t ASSETCHAINS_TIMESTAMP;
 
 #define GENESIS_NBITS 0x1f0fffff
 void *chainparams_commandline(void *ptr);
-static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward);
+ CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward);
 
 
 struct CDNSSeedData {
