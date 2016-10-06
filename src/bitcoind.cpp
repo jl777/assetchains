@@ -77,7 +77,6 @@ bool AppInit(int argc, char* argv[])
     ASSETCHAINS_MAGIC = GetArg("-ac_magic",ASSETCHAINS_MAGIC);
     ASSETCHAINS_TIMESTAMP = GetArg("-ac_timestamp",ASSETCHAINS_TIMESTAMP);
     ASSETCHAINS_SUPPLY = GetArg("-ac_supply",ASSETCHAINS_SUPPLY);
-    ((char *)&symbol)[0] = 'R', ((char *)&symbol)[1] = 'E', ((char *)&symbol)[2] = 'V', ((char *)&symbol)[3] = 'S';
     name = GetArg("-ac_name","REVS");
     strncpy(ASSETCHAINS_SYMBOL,name.c_str(),sizeof(ASSETCHAINS_SYMBOL)-1);
     ASSETCHAINS_PORT = GetArg("-ac_port",8777);
