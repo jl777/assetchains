@@ -17,6 +17,9 @@
 
 #include "chainparamsseeds.h"
 
+#include "arith_uint256.h"
+#include "uint256.h"
+
 #include <stdio.h>
 
 uint16_t ASSETCHAINS_PORT = 8777;
