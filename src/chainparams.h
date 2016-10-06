@@ -57,6 +57,7 @@ public:
     const CMessageHeader::MessageStartChars& MessageStart() const { return pchMessageStart; }
     const std::vector<unsigned char>& AlertKey() const { return vAlertPubKey; }
     int GetDefaultPort() const { return nDefaultPort; }
+    void SetDefaultPort(uint16_t port) const { nDefaultPort = port; }
 
     const CBlock& GenesisBlock() const { return genesis; }
     const CBlock* GenesisBlockPtr() const { return &genesis; }
@@ -78,14 +79,14 @@ public:
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
     const std::vector<SeedSpec6>& FixedSeeds() const { return vFixedSeeds; }
     const CCheckpointData& Checkpoints() const { return checkpointData; }
+    CMessageHeader::MessageStartChars pchMessageStart;
 protected:
     CChainParams() {}
 
+    int nDefaultPort;
     Consensus::Params consensus;
-    CMessageHeader::MessageStartChars pchMessageStart;
     //! Raw pub key bytes for the broadcast alert signing key.
     std::vector<unsigned char> vAlertPubKey;
-    int nDefaultPort;
     long nMaxTipAge;
     uint64_t nPruneAfterHeight;
     std::vector<CDNSSeedData> vSeeds;

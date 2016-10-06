@@ -184,12 +184,12 @@ void *chainparams_commandline(void *ptr)
 {
     CChainParams *consensus = (CChainParams *)ptr;
     //CBlock *genesis = consensus->GenesisBlockPtr();
-    uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp,powlimit;
+    uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 hash,powlimit;
     powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
     fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
     while ( ASSETCHAINS_PORT == 0 )
         sleep(1);
-    consensus->nDefaultPort = ASSETCHAINS_PORT;
+    consensus->SetDefaultPort(ASSETCHAINS_PORT);
     consensus->pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
     consensus->pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
     consensus->pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;
@@ -204,10 +204,11 @@ void *chainparams_commandline(void *ptr)
             fprintf(stderr,"%d %d target > powlimit\n",fNegative,fOverflow);
             continue;
         }
-        if ( UintToArith256(genesis.GetHash()) > bnTarget )
+        hash = genesis.GetHash();
+        if ( UintToArith256(hash) > bnTarget )
         {
             tmp = ArithToUint256(bnTarget);
-            fprintf(stderr,"%u: hash %s > target %s\n",nonce,genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
+            fprintf(stderr,"%u: hash %s > target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
             continue;
         }
         break;
@@ -217,7 +218,7 @@ void *chainparams_commandline(void *ptr)
         fprintf(stderr,"couldnt find nonce, abort\n");
         exit(-1);
     }
-    consensus->hashGenesisBlock = genesis.GetHash();
+    consensus->consensus.hashGenesisBlock = hash;
     fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     return(0);
 }
