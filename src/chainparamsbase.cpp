@@ -84,7 +84,7 @@ static CBaseRegTestParams regTestParams;
 
 static CBaseChainParams* pCurrentBaseParams = 0;
 
-const CBaseChainParams& BaseParams()
+/*const*/ CBaseChainParams& BaseParams()
 {
     assert(pCurrentBaseParams);
     return *pCurrentBaseParams;
