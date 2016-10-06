@@ -14,6 +14,13 @@
 
 #include <vector>
 
+extern uint32_t ASSETCHAINS_MAGIC;
+extern uint32_t ASSETCHAINS_TIMESTAMP;
+
+#define GENESIS_NBITS 0x1f0fffff
+void *chainparams_commandline(void *ptr);
+
+
 struct CDNSSeedData {
     std::string name, host;
     CDNSSeedData(const std::string &strName, const std::string &strHost) : name(strName), host(strHost) {}
