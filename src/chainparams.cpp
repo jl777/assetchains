@@ -22,9 +22,6 @@
 
 #include <stdio.h>
 
-#define GENESIS_NBITS 0x1e00ffff
-#define GENESIS_STRING "Genesis String"
-
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
@@ -96,11 +93,15 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
  *    timestamp before)
  * + Contains no strange transactions
  */
+extern char ASSETCHAINS_SYMBOL[16];
+
 uint16_t ASSETCHAINS_PORT = 8777;
 uint32_t ASSETCHAINS_MAGIC = 2387029918;
 uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
-extern char ASSETCHAINS_SYMBOL[16];
+
+#define GENESIS_NBITS 0x1f00ffff
+#define GENESIS_STRING "Genesis String"
 
 class CMainParams : public CChainParams {
 public:
@@ -112,7 +113,7 @@ public:
         consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 227931;
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8");
-        consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("00ffffffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 6; // two weeks/10
         consensus.nPowTargetSpacing = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
