@@ -103,7 +103,7 @@ uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
 
 #define GENESIS_NBITS 0x1f0fffff
-void chainparams_commandline(void *ptr)
+void chainparams_commandline(void *ptr);
 
 class CMainParams : public CChainParams {
 public:
