@@ -189,8 +189,12 @@ void *chainparams_commandline(void *ptr)
     powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
     fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
     while ( ASSETCHAINS_PORT == 0 )
+    {
         sleep(1);
+        fprintf(stderr,"port.%u\n",ASSETCHAINS_PORT);
+    }
     consensus->SetDefaultPort(ASSETCHAINS_PORT);
+    fprintf(stderr,"set default port\n");
     consensus->pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
     consensus->pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
     consensus->pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;

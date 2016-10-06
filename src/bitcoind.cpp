@@ -72,14 +72,14 @@ bool AppInit(int argc, char* argv[])
     // If Qt is used, parameters/bitcoin.conf are parsed in qt/bitcoin.cpp's main()
     ParseParameters(argc, argv);
     extern uint16_t ASSETCHAINS_PORT; extern uint32_t ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP;
-    extern char ASSETCHAINS_SYMBOL[16]; extern uint64_t ASSETCHAINS_SUPPLY; std::string symbol;
+    extern char ASSETCHAINS_SYMBOL[16]; extern uint64_t ASSETCHAINS_SUPPLY; std::string name;
     
     ASSETCHAINS_MAGIC = GetArg("-ac_magic",ASSETCHAINS_MAGIC);
     ASSETCHAINS_TIMESTAMP = GetArg("-ac_timestamp",ASSETCHAINS_TIMESTAMP);
     ASSETCHAINS_SUPPLY = GetArg("-ac_supply",ASSETCHAINS_SUPPLY);
     ((char *)&symbol)[0] = 'R', ((char *)&symbol)[1] = 'E', ((char *)&symbol)[2] = 'V', ((char *)&symbol)[3] = 'S';
-    symbol = GetArg("-ac_symbol",symbol);
-    strncpy(ASSETCHAINS_SYMBOL,symbol.c_str(),sizeof(ASSETCHAINS_SYMBOL)-1);
+    name = GetArg("-ac_name","REVS");
+    strncpy(ASSETCHAINS_SYMBOL,name.c_str(),sizeof(ASSETCHAINS_SYMBOL)-1);
     ASSETCHAINS_PORT = GetArg("-ac_port",8777);
     fprintf(stderr,"after args: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
 
