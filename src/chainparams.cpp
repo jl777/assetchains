@@ -182,17 +182,7 @@ public:
             }
             if ( UintToArith256(genesis.GetHash()) > bnTarget )
             {
-                char str[65];
-                tmp = UintToArith256(genesis.GetHash());
-                for (i=0; i<64; i++)
-                {
-                    str[i] = (tmp & 0xf);
-                    if ( str[i] >= 10 )
-                        str[i] += 'a';
-                    else str[i] += '0';
-                }
-                str[i] = 0;
-                fprintf(stderr,"%u: hash %s > target\n",nonce,str);
+                fprintf(stderr,"%u: hash %s > target\n",nonce,genesis.GetHash().ToString());
                 continue;
             }
             break;
