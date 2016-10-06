@@ -453,9 +453,10 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
     fprintf(stderr, "\n\n************************\n%s\n", message.c_str());
 }
 
+char ASSETCHAINS_SYMBOL[16] = { "REVS" };
+
 boost::filesystem::path GetDefaultDataDir()
 {
-    extern char ASSETCHAINS_SYMBOL[];
     namespace fs = boost::filesystem;
     // Windows < Vista: C:\Documents and Settings\Username\Application Data\Bitcoin
     // Windows >= Vista: C:\Users\Username\AppData\Roaming\Bitcoin
