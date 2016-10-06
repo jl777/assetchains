@@ -104,7 +104,7 @@ uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
 
 #define GENESIS_NBITS 0x1f0fffff
-void chainparams_commandline(void *ptr);
+void *chainparams_commandline(void *ptr);
 
 class CMainParams : public CChainParams {
 public:
@@ -176,7 +176,7 @@ public:
             0
         };
         fprintf(stderr,"start thread to init chainparams\n");
-        if ( pthread_create((pthread_t *)malloc(sizeof(pthread_t)),NULL,(void *)chainparams_commandline,(void *)&consensus) != 0 )
+        if ( pthread_create((pthread_t *)malloc(sizeof(pthread_t)),NULL,chainparams_commandline,(void *)&consensus) != 0 )
         {
             
         }
@@ -184,7 +184,7 @@ public:
 };
 static CMainParams mainParams;
 
-void chainparams_commandline(void *ptr)
+void *chainparams_commandline(void *ptr)
 {
     CChainParams *consensus = ptr;
     uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp;
@@ -216,6 +216,7 @@ void chainparams_commandline(void *ptr)
     }
     consensus->hashGenesisBlock = genesis.GetHash();
     fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
+    return(0);
 }
 
 class CUnlParams : public CChainParams {
