@@ -71,7 +71,7 @@ bool AppInit(int argc, char* argv[])
     //
     // If Qt is used, parameters/bitcoin.conf are parsed in qt/bitcoin.cpp's main()
     ParseParameters(argc, argv);
-    extern uint16_t ASSETCHAINS_PORT; extern uint32_t ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP;
+    extern uint16_t ASSETCHAINS_PORT; extern uint32_t ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,ASSETCHAIN_INIT;
     extern char ASSETCHAINS_SYMBOL[16]; extern uint64_t ASSETCHAINS_SUPPLY; std::string name;
     
     ASSETCHAINS_MAGIC = GetArg("-ac_magic",ASSETCHAINS_MAGIC);
@@ -81,7 +81,11 @@ bool AppInit(int argc, char* argv[])
     strncpy(ASSETCHAINS_SYMBOL,name.c_str(),sizeof(ASSETCHAINS_SYMBOL)-1);
     ASSETCHAINS_PORT = GetArg("-ac_port",8777);
     fprintf(stderr,"after args: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
-
+    while ( ASSETCHAIN_INIT == 0 )
+    {
+        sleep(1);
+    }
+    fprintf(stderr,"%s chain params initialized\n",ASSETCHAINS_SYMBOL);
     // Process help and version before taking care about datadir
     if (mapArgs.count("-?") || mapArgs.count("-h") ||  mapArgs.count("-help") || mapArgs.count("-version"))
     {

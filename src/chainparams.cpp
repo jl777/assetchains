@@ -99,6 +99,7 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
 extern char ASSETCHAINS_SYMBOL[16];
 
 uint16_t ASSETCHAINS_PORT = 0;
+uint32_t ASSETCHAIN_INIT = 0;
 uint32_t ASSETCHAINS_MAGIC = 2387029918;
 uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
@@ -225,6 +226,7 @@ void *chainparams_commandline(void *ptr)
     }
     consensus->consensus.hashGenesisBlock = hash;
     fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
+    ASSETCHAIN_INIT = 1;
     return(0);
 }
 
