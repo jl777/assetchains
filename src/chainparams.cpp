@@ -168,19 +168,23 @@ public:
             0,
             0
         };
-        uint32_t nonce;
+        uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget;
         for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+10000000; nonce++)
         {
             genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
-            consensus.hashGenesisBlock = genesis.GetHash();
-            if ( CheckProofOfWork(genesis.GetHash(), GENESIS_NBITS, Params()) != 0 )
-                break;
+            bnTarget.SetCompact(GENESIS_NBITS,&fNegative,&fOverflow);
+            if ( fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(consensus.powLimit) )
+                continue;
+            if ( UintToArith256(genesis.GetHash()) > bnTarget )
+                continue
+            break;
         }
         if ( nonce == ASSETCHAINS_SUPPLY+10000000 )
         {
             fprintf(stderr,"couldnt find nonce, abort\n");
             exit(-1);
         }
+        consensus.hashGenesisBlock = genesis.GetHash();
         fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     }
 };
