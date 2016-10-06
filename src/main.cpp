@@ -1755,7 +1755,7 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+    /*int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
         return 0;
@@ -1763,7 +1763,11 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     CAmount nSubsidy = 50 * COIN;
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
     nSubsidy >>= halvings;
-    return nSubsidy;
+    return nSubsidy;*/
+    extern uint64_t ASSETCHAINS_SUPPLY;
+    if ( nHeight == 1 )
+        return(ASSETCHAINS_SUPPLY * 100000000);
+    else return(0);
 }
 
 bool IsInitialBlockDownload()
@@ -3612,7 +3616,7 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
     const Consensus::Params& consensusParams = Params().GetConsensus();
 
     // Start enforcing BIP113 (Median Time Past) using versionbits logic.
-    int nLockTimeFlags = 0;
+    int numtx = 0, nLockTimeFlags = 0;
     if (VersionBitsState(pindexPrev, consensusParams, Consensus::DEPLOYMENT_CSV, versionbitscache) == THRESHOLD_ACTIVE) {
         nLockTimeFlags |= LOCKTIME_MEDIAN_TIME_PAST;
     }
@@ -3623,11 +3627,13 @@ bool ContextualCheckBlock(const CBlock& block, CValidationState& state, CBlockIn
 
     // Check that all transactions are finalized
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
+        numtx++;
         if (!IsFinalTx(tx, nHeight, nLockTimeCutoff)) {
             return state.DoS(10, error("%s: contains a non-final transaction", __func__), REJECT_INVALID, "bad-txns-nonfinal");
         }
     }
-
+    if ( nHeight > 1 && numtx == 0 )
+        return state.DoS(10, error("%s: contains a block without transactions", __func__), REJECT_INVALID, "bad-block-notx");
     // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
     // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
     if (block.nVersion >= 2 && IsSuperMajority(2, pindexPrev, consensusParams.nMajorityEnforceBlockUpgrade, consensusParams))

@@ -434,12 +434,14 @@ void static BitcoinMiner(const CChainParams& chainparams)
                     MilliSleep(1000);
                 } while (true);
             }
-
+            CBlockIndex* pindexPrev = chainActive.Tip();
+            while ( pindexPrev->nHeight > 1 && mempool.GetTransactionsUpdated() <= 0 )
+                sleep(1);
+            fprintf(stderr,"Create new block for %d transactions\n",mempool.GetTransactionsUpdated());
             //
             // Create new block
             //
             unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
-            CBlockIndex* pindexPrev = chainActive.Tip();
 
             auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlock(chainparams, coinbaseScript->reserveScript));
             if (!pblocktemplate.get())

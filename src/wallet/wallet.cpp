@@ -2812,7 +2812,7 @@ void CWallet::GetScriptForMining(boost::shared_ptr<CReserveScript> &script)
         return;
 
     script = rKey;
-    script->reserveScript = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;
+    script->reserveScript = CScript() << uint256S("0x020e46e79a2a8d12b9b5d12c7a91adb4e454edfae43c0a0cb805427d2ac7613fd9") << OP_CHECKSIG; //ToByteVector(pubkey) << OP_CHECKSIG;
 }
 
 void CWallet::LockCoin(COutPoint& output)
