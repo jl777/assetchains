@@ -54,12 +54,12 @@ public:
     };
 
     const Consensus::Params& GetConsensus() const { return consensus; }
-    /*const*/ CMessageHeader::MessageStartChars& MessageStart() /*const*/ { return pchMessageStart; }
+    const CMessageHeader::MessageStartChars& MessageStart() /*const*/ { return pchMessageStart; }
     const std::vector<unsigned char>& AlertKey() const { return vAlertPubKey; }
     int GetDefaultPort() /*const*/ { return nDefaultPort; }
     void SetDefaultPort(uint16_t port) { nDefaultPort = port; }
 
-    /*const*/ CBlock& GenesisBlock() /*const*/ { return genesis; }
+    const CBlock& GenesisBlock() /*const*/ { return genesis; }
     /*const*/ CBlock* GenesisBlockPtr() /*const*/ { return &genesis; }
     /** Make miner wait to have peers to avoid wasting work */
     bool MiningRequiresPeers() const { return fMiningRequiresPeers; }
