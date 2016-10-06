@@ -179,7 +179,7 @@ public:
             if ( fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(consensus.powLimit) )
                 continue;
             if ( UintToArith256(genesis.GetHash()) > bnTarget )
-                continue
+                continue;
             break;
         }
         if ( nonce == ASSETCHAINS_SUPPLY+10000000 )
