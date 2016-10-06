@@ -171,6 +171,7 @@ public:
             0
         };
         uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp;
+        fprintf(stderr,"POWLIMIT.%s\n",consensus.powLimit.ToString().c_str());
         for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
         {
             genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
@@ -182,7 +183,8 @@ public:
             }
             if ( UintToArith256(genesis.GetHash()) > bnTarget )
             {
-                fprintf(stderr,"%u: hash %s > target\n",nonce,genesis.GetHash().ToString().c_str());
+                tmp = ArithToUint256(bnTarget);
+                fprintf(stderr,"%u: hash %s > target %s\n",nonce,genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
                 continue;
             }
             break;
