@@ -346,7 +346,7 @@ assetchaind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 assetchaind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoind_SOURCES += bitcoind-res.rc
+assetchaind_SOURCES += bitcoind-res.rc
 endif
 
 bitcoind_LDADD = \
