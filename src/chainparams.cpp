@@ -442,7 +442,7 @@ static CRegTestParams regTestParams;
 
        CChainParams *pCurrentParams = 0;
 
-const CChainParams &Params() {
+/*const*/ CChainParams &Params() {
     assert(pCurrentParams);
     return *pCurrentParams;
 }
