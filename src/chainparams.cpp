@@ -15,9 +15,10 @@
 
 #include <boost/assign/list_of.hpp>
 
-#include "chainparamsseeds.h"
+//#include "chainparamsseeds.h"
 
 #include <stdio.h>
+#include <sstream>
 
 uint16_t ASSETCHAINS_PORT = 8777;
 uint32_t ASSETCHAINS_MAGIC = 2387029918;
@@ -49,7 +50,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     return genesis;
 }
 
-static CBlock CreateGenesisBlock(const  CScript& genesisInputScript, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+/*static CBlock CreateGenesisBlock(const  CScript& genesisInputScript, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
     txNew.nVersion = 1;
@@ -68,7 +69,7 @@ static CBlock CreateGenesisBlock(const  CScript& genesisInputScript, const CScri
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
     return genesis;
-}
+}*/
 
 
 /**
