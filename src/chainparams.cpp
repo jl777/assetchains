@@ -170,8 +170,8 @@ public:
             0,
             0
         };
-        uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget;
-        for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+100000; nonce++)
+        uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget,tmp;
+        for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
         {
             genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
             bnTarget.SetCompact(GENESIS_NBITS,&fNegative,&fOverflow);
@@ -180,14 +180,15 @@ public:
                 fprintf(stderr,"%d %d target > powlimit\n",fNegative,fOverflow);
                 continue;
             }
-            if ( UintToArith256(genesis.GetHash()) > bnTarget )
+            tmp = genesis.GetHash();
+            if ( UintToArith256(tmp) > bnTarget )
             {
-                fprintf(stderr,"%u: hash > target\n",nonce);
+                fprintf(stderr,"%u: hash %llx > %llx target\n",nonce,(long long)tmp,(long long)bnTarget);
                 continue;
             }
             break;
         }
-        if ( nonce == ASSETCHAINS_SUPPLY+10000000 )
+        if ( nonce == ASSETCHAINS_SUPPLY+1000000 )
         {
             fprintf(stderr,"couldnt find nonce, abort\n");
             exit(-1);
