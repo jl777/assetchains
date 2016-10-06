@@ -69,7 +69,7 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += bitcoind
+  bin_PROGRAMS += assetchaind
 endif
 
 if BUILD_BITCOIN_UTILS

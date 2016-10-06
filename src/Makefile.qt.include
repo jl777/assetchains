@@ -1,4 +1,4 @@
-bin_PROGRAMS += qt/bitcoin-qt
+bin_PROGRAMS += qt/assetchain-qt
 EXTRA_LIBRARIES += qt/libbitcoinqt.a
 
 # bitcoin qt core #
