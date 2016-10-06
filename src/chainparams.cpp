@@ -184,8 +184,7 @@ static CMainParams mainParams;
 void *chainparams_commandline(void *ptr)
 {
     CChainParams *consensus = (CChainParams *)ptr;
-    CBlock genesis;
-    //CBlock *genesis = consensus->GenesisBlockPtr();
+    CBlock genesis,*genesisptr = consensus->GenesisBlockPtr();
     uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp,hash,powlimit;
     powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
     fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
@@ -217,6 +216,7 @@ void *chainparams_commandline(void *ptr)
             //fprintf(stderr,"%u: hash %s > target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
             continue;
         }
+        *genesisptr = genesis;
         fprintf(stderr,"%u: hash %s <= target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
         break;
     }
