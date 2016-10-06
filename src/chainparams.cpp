@@ -17,13 +17,16 @@
 
 #include "chainparamsseeds.h"
 
+#include <stdio.h>
+
 uint16_t ASSETCHAINS_PORT = 8777;
-uint32_t ASSETCHAINS_MAGIC = 2387029918; //0x8e472f9e
+uint32_t ASSETCHAINS_MAGIC = 2387029918;
 uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 char ASSETCHAINS_SYMBOL[16] = { "REVS" };
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
 
-#define ASSETCHAINS_NBITS 0x1d00ffff
+#define GENESIS_NBITS 0x1d00ffff
+#define GENESIS_STRING "Genesis String"
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
@@ -170,9 +173,9 @@ public:
         uint32_t nonce;
         for (nonce=ASSETCHAINS_ISSUE; nonce<ASSETCHAINS_ISSUE+10000000; nonce++)
         {
-            genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, ASSETCHAINS_NBITS, 1, COIN);
+            genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
             consensus.hashGenesisBlock = genesis.GetHash();
-            if ( CheckProofOfWork(block.GetHash(), ASSETCHAINS_NBITS, mainParams) != 0 )
+            if ( CheckProofOfWork(block.GetHash(), GENESIS_NBITS, mainParams) != 0 )
                 break;
         }
         if ( nonce == ASSETCHAINS_ISSUE+10000000 )
@@ -186,7 +189,7 @@ public:
         cout << ASSETCHAINS_SYMBOL << " Merkleroot: " << genesis.hashMerkleRoot << endl;
         cout << ASSETCHAINS_SYMBOL << " nonce: " << nonce << endl;
         cout << ASSETCHAINS_SYMBOL << " timestamp: " << ASSETCHAINS_TIMESTAMP << endl;
-        cout << ASSETCHAINS_SYMBOL << " nbits: " << ASSETCHAINS_NBITS << endl;
+        cout << ASSETCHAINS_SYMBOL << " nbits: " << GENESIS_NBITS << endl;
         cout << ASSETCHAINS_SYMBOL << " asset supply: " << ASSETCHAINS_SUPPLY << endl;
         //assert(consensus.hashGenesisBlock == uint256S(ASSETCHAINS_GENESISHASH));
         //assert(genesis.hashMerkleRoot == uint256S(ASSETCHAINS_MERKLEROOT));
