@@ -27,7 +27,7 @@ Homepage: https://www.bitcoinunlimited.info/
 Vcs-Git: git://github.com/BitcoinUnlimited/BitcoinUnlimited.git
 Vcs-Browser: https://github.com/BitcoinUnlimited/BitcoinUnlimited
 
-Package: bitcoind
+Package: assetchaind
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - daemon
@@ -37,7 +37,7 @@ Description: peer-to-peer network based digital currency - daemon
  and issuing money are carried out collectively by the network. Bitcoin Unlimited
  is the name of the open source software which enables the use of this currency.
  .
- This package provides the daemon, bitcoind, and the CLI tool
+ This package provides the daemon, assetchaind, and the CLI tool
  bitcoin-cli to interact with the daemon.
 
 Package: bitcoinunlimited-qt

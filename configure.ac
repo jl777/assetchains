@@ -212,9 +212,9 @@ AC_ARG_WITH([libs],
 
 AC_ARG_WITH([daemon],
   [AS_HELP_STRING([--with-daemon],
-  [build bitcoind daemon (default=yes)])],
-  [build_bitcoind=$withval],
-  [build_bitcoind=yes])
+  [build assetchaind daemon (default=yes)])],
+  [build_assetchaind=$withval],
+  [build_assetchaind=yes])
 
 AC_LANG_PUSH([C++])
 
@@ -559,7 +559,7 @@ BITCOIN_QT_INIT
 dnl sets $bitcoin_enable_qt, $bitcoin_enable_qt_test, $bitcoin_enable_qt_dbus
 BITCOIN_QT_CONFIGURE([$use_pkgconfig], [qt5])
 
-if test x$build_bitcoin_utils$build_bitcoind$bitcoin_enable_qt$use_tests = xnononono; then
+if test x$build_bitcoin_utils$build_assetchaind$bitcoin_enable_qt$use_tests = xnononono; then
     use_boost=no
 else
     use_boost=yes
@@ -707,7 +707,7 @@ if test x$use_pkgconfig = xyes; then
       if test x$use_qr != xno; then
         BITCOIN_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
-      if test x$build_bitcoin_utils$build_bitcoind$bitcoin_enable_qt$use_tests != xnononono; then
+      if test x$build_bitcoin_utils$build_assetchaind$bitcoin_enable_qt$use_tests != xnononono; then
         PKG_CHECK_MODULES([EVENT], [libevent],, [AC_MSG_ERROR(libevent not found.)])
         if test x$TARGET_OS != xwindows; then
           PKG_CHECK_MODULES([EVENT_PTHREADS], [libevent_pthreads],, [AC_MSG_ERROR(libevent_pthreads not found.)])
@@ -732,7 +732,7 @@ else
   AC_CHECK_HEADER([openssl/ssl.h],, AC_MSG_ERROR(libssl headers missing),)
   AC_CHECK_LIB([ssl],         [main],SSL_LIBS=-lssl, AC_MSG_ERROR(libssl missing))
 
-  if test x$build_bitcoin_utils$build_bitcoind$bitcoin_enable_qt$use_tests != xnononono; then
+  if test x$build_bitcoin_utils$build_assetchaind$bitcoin_enable_qt$use_tests != xnononono; then
     AC_CHECK_HEADER([event2/event.h],, AC_MSG_ERROR(libevent headers missing),)
     AC_CHECK_LIB([event],[main],EVENT_LIBS=-levent,AC_MSG_ERROR(libevent missing))
     if test x$TARGET_OS != xwindows; then
@@ -771,9 +771,9 @@ LIBS="$LIBS_TEMP"
 
 BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
-AC_MSG_CHECKING([whether to build bitcoind])
-AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
-AC_MSG_RESULT($build_bitcoind)
+AC_MSG_CHECKING([whether to build assetchaind])
+AM_CONDITIONAL([BUILD_assetchaind], [test x$build_assetchaind = xyes])
+AC_MSG_RESULT($build_assetchaind)
 
 AC_MSG_CHECKING([whether to build utils (bitcoin-cli bitcoin-tx)])
 AM_CONDITIONAL([BUILD_BITCOIN_UTILS], [test x$build_bitcoin_utils = xyes])
@@ -903,7 +903,7 @@ else
   AC_MSG_RESULT([no])
 fi
 
-if test x$build_bitcoin_utils$build_bitcoin_libs$build_bitcoind$bitcoin_enable_qt$use_tests = xnonononono; then
+if test x$build_bitcoin_utils$build_bitcoin_libs$build_assetchaind$bitcoin_enable_qt$use_tests = xnonononono; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon --with-gui or --enable-tests])
 fi
 
@@ -950,7 +950,7 @@ AC_SUBST(LEVELDB_TARGET_FLAGS)
 AC_SUBST(MINIUPNPC_CPPFLAGS)
 AC_SUBST(MINIUPNPC_LIBS)
 AC_CONFIG_FILES([Makefile src/Makefile share/setup.nsi share/qt/Info.plist src/test/buildenv.py])
-AC_CONFIG_FILES([qa/pull-tester/run-bitcoind-for-test.sh],[chmod +x qa/pull-tester/run-bitcoind-for-test.sh])
+AC_CONFIG_FILES([qa/pull-tester/run-assetchaind-for-test.sh],[chmod +x qa/pull-tester/run-assetchaind-for-test.sh])
 AC_CONFIG_FILES([qa/pull-tester/tests_config.py],[chmod +x qa/pull-tester/tests_config.py])
 
 dnl boost's m4 checks do something really nasty: they export these vars. As a

@@ -1,36 +1,36 @@
 #!/bin/bash
 #
-#  bitcoind The bitcoin unlimited server.
+#  assetchaind The bitcoin unlimited server.
 #
 #
 # chkconfig: 345 80 20
-# description: bitcoind
-# processname: bitcoind
+# description: assetchaind
+# processname: assetchaind
 #
 
 # Source function library.
 . /etc/init.d/functions
 
-# you can override defaults in /etc/sysconfig/bitcoind, see below
-if [ -f /etc/sysconfig/bitcoind ]; then
-        . /etc/sysconfig/bitcoind
+# you can override defaults in /etc/sysconfig/assetchaind, see below
+if [ -f /etc/sysconfig/assetchaind ]; then
+        . /etc/sysconfig/assetchaind
 fi
 
 RETVAL=0
 
-prog=bitcoind
+prog=assetchaind
 # you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/bitcoind
-lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/bitcoind}
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/assetchaind}
 
 # bitcoind defaults to /usr/bin/bitcoind, override with BITCOIND_BIN
-bitcoind=${BITCOIND_BIN-/usr/bin/bitcoind}
+assetchaind=${BITCOIND_BIN-/usr/bin/assetchaind}
 
 # bitcoind opts default to -disablewallet, override with BITCOIND_OPTS
-bitcoind_opts=${BITCOIND_OPTS--disablewallet}
+assetchaind_opts=${BITCOIND_OPTS--disablewallet}
 
 start() {
     echo -n $"Starting $prog: "
-    daemon $DAEMONOPTS $bitcoind $bitcoind_opts
+    daemon $DAEMONOPTS $assetchaind $assetchaind_opts
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch $lockfile
