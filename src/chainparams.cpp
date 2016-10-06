@@ -76,6 +76,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  *     CTxOut(nValue=50.00000000, scriptPubKey=0x5F1DF16B2B704C8A578D0B)
  *   vMerkleTree: 4a5e1e
  */
+#define GENESIS_STRING "Genesis String"
+
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     const char* pszTimestamp = GENESIS_STRING;
@@ -101,7 +103,6 @@ uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
 
 #define GENESIS_NBITS 0x1f00ffff
-#define GENESIS_STRING "Genesis String"
 
 class CMainParams : public CChainParams {
 public:
