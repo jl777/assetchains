@@ -888,12 +888,12 @@ static bool ReverseCompareNodeMinPingTime(const CNodeRef &a, const CNodeRef &b)
 {
     return a->nMinPingUsecTime > b->nMinPingUsecTime;
 }
-#endif
 
 static bool ReverseCompareNodeTimeConnected(const CNodeRef &a, const CNodeRef &b)
 {
     return a->nTimeConnected > b->nTimeConnected;
 }
+#endif
 
 // BU: connection slot exhaustion mitigation
 static bool CompareNodeActivityBytes(const CNodeRef &a, const CNodeRef &b)

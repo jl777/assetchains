@@ -79,12 +79,13 @@ public:
     const std::vector<unsigned char>& Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
     const std::vector<SeedSpec6>& FixedSeeds() const { return vFixedSeeds; }
     const CCheckpointData& Checkpoints() const { return checkpointData; }
+
     int nDefaultPort;
     CMessageHeader::MessageStartChars pchMessageStart;
+    Consensus::Params consensus;
 protected:
     CChainParams() {}
 
-    Consensus::Params consensus;
     //! Raw pub key bytes for the broadcast alert signing key.
     std::vector<unsigned char> vAlertPubKey;
     long nMaxTipAge;
