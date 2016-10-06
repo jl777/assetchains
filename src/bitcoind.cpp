@@ -71,6 +71,20 @@ bool AppInit(int argc, char* argv[])
     //
     // If Qt is used, parameters/bitcoin.conf are parsed in qt/bitcoin.cpp's main()
     ParseParameters(argc, argv);
+    extern uint16_t ASSETCHAINS_PORT; extern uint32_t ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP;
+    extern char ASSETCHAINS_SYMBOL[16]; extern uint64_t ASSETCHAINS_SUPPLY; uint64_t symbol;
+    
+    ASSETCHAINS_PORT = GetArg("-ac_port",ASSETCHAINS_PORT);
+    ASSETCHAINS_MAGIC = GetArg("-ac_magic",ASSETCHAINS_MAGIC);
+    ASSETCHAINS_TIMESTAMP = GetArg("-ac_timestamp",ASSETCHAINS_TIMESTAMP);
+    ASSETCHAINS_SUPPLY = GetArg("-ac_supply",ASSETCHAINS_SUPPLY);
+    ((char *)&symbol)[0] = 'R', ((char *)&symbol)[1] = 'E', ((char *)&symbol)[2] = 'V', ((char *)&symbol)[3] = 'S';
+    symbol = GetArg("-ac_symbol",symbol);
+    ASSETCHAINS_SYMBOL[0] = ((char *)&symbol)[0];
+    ASSETCHAINS_SYMBOL[1] = ((char *)&symbol)[1];
+    ASSETCHAINS_SYMBOL[2] = ((char *)&symbol)[2];
+    ASSETCHAINS_SYMBOL[3] = ((char *)&symbol)[3];
+    fprintf(stderr,"after args: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
 
     // Process help and version before taking care about datadir
     if (mapArgs.count("-?") || mapArgs.count("-h") ||  mapArgs.count("-help") || mapArgs.count("-version"))
