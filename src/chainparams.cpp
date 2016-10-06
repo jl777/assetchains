@@ -182,14 +182,15 @@ public:
             fprintf(stderr,"couldnt find nonce, abort\n");
             exit(-1);
         }
-        std::cout << ASSETCHAINS_SYMBOL << " port: " << ASSETCHAINS_PORT << std::endl;
+        /*std::cout << ASSETCHAINS_SYMBOL << " port: " << ASSETCHAINS_PORT << std::endl;
         std::cout << ASSETCHAINS_SYMBOL << " netmagic: " << ASSETCHAINS_MAGIC << std::endl;
         std::cout << ASSETCHAINS_SYMBOL << " Genesis Hash: " << consensus.hashGenesisBlock << std::endl;
         std::cout << ASSETCHAINS_SYMBOL << " Merkleroot: " << genesis.hashMerkleRoot << std::endl;
         std::cout << ASSETCHAINS_SYMBOL << " nonce: " << nonce << std::endl;
         std::cout << ASSETCHAINS_SYMBOL << " timestamp: " << ASSETCHAINS_TIMESTAMP << std::endl;
         std::cout << ASSETCHAINS_SYMBOL << " nbits: " << GENESIS_NBITS << std::endl;
-        std::cout << ASSETCHAINS_SYMBOL << " asset supply: " << ASSETCHAINS_SUPPLY << std::endl;
+        std::cout << ASSETCHAINS_SYMBOL << " asset supply: " << ASSETCHAINS_SUPPLY << std::endl;*/
+        fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,ASSETCHAINS_SUPPLY);
         //assert(consensus.hashGenesisBlock == uint256S(ASSETCHAINS_GENESISHASH));
         //assert(genesis.hashMerkleRoot == uint256S(ASSETCHAINS_MERKLEROOT));
 
