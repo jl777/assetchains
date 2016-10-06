@@ -184,22 +184,21 @@ static CMainParams mainParams;
 void *chainparams_commandline(void *ptr)
 {
     CChainParams *consensus = (CChainParams *)ptr;
-    CBlock genesis,*genesisptr = consensus->GenesisBlockPtr();
+    CBlock genesis;
     uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp,hash,powlimit;
     powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
-    fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
+    //fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
     while ( ASSETCHAINS_PORT == 0 )
     {
         sleep(1);
-        fprintf(stderr,"port.%u\n",ASSETCHAINS_PORT);
+        //fprintf(stderr,"port.%u\n",ASSETCHAINS_PORT);
     }
     consensus->SetDefaultPort(ASSETCHAINS_PORT);
-    fprintf(stderr,"set default port\n");
     consensus->pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
     consensus->pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
     consensus->pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;
     consensus->pchMessageStart[3] = (ASSETCHAINS_MAGIC >> 24) & 0xff;
-    fprintf(stderr,"after: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
+    //fprintf(stderr,"%s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
     for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
     {
         genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
@@ -216,8 +215,6 @@ void *chainparams_commandline(void *ptr)
             //fprintf(stderr,"%u: hash %s > target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
             continue;
         }
-        *genesisptr = genesis;
-        fprintf(stderr,"%u: hash %s <= target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
         break;
     }
     if ( nonce == ASSETCHAINS_SUPPLY+1000000 )
@@ -225,8 +222,10 @@ void *chainparams_commandline(void *ptr)
         fprintf(stderr,"couldnt find nonce, abort\n");
         exit(-1);
     }
+    consensus->recalc_genesis(nonce);
+    fprintf(stderr,"%u: hash %s <= target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
     consensus->consensus.hashGenesisBlock = hash;
-    fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
+    fprintf(stderr,"%s: port.%u magic.%08x %u nonce.%u time.%u nbits.%08x %u coins\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     ASSETCHAIN_INIT = 1;
     return(0);
 }
