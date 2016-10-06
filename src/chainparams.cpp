@@ -171,14 +171,14 @@ public:
             0
         };
         uint32_t nonce;
-        for (nonce=ASSETCHAINS_ISSUE; nonce<ASSETCHAINS_ISSUE+10000000; nonce++)
+        for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+10000000; nonce++)
         {
             genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
             consensus.hashGenesisBlock = genesis.GetHash();
-            if ( CheckProofOfWork(block.GetHash(), GENESIS_NBITS, mainParams) != 0 )
+            if ( CheckProofOfWork(genesis.GetHash(), GENESIS_NBITS, Params()) != 0 )
                 break;
         }
-        if ( nonce == ASSETCHAINS_ISSUE+10000000 )
+        if ( nonce == ASSETCHAINS_SUPPLY+10000000 )
         {
             fprintf(stderr,"couldnt find nonce, abort\n");
             exit(-1);
