@@ -97,12 +97,13 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
  */
 extern char ASSETCHAINS_SYMBOL[16];
 
-uint16_t ASSETCHAINS_PORT = 8777;
+uint16_t ASSETCHAINS_PORT = 0;
 uint32_t ASSETCHAINS_MAGIC = 2387029918;
 uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
 uint64_t ASSETCHAINS_SUPPLY = 1000000;
 
 #define GENESIS_NBITS 0x1f0fffff
+void chainparams_commandline(void *ptr)
 
 class CMainParams : public CChainParams {
 public:
@@ -173,35 +174,48 @@ public:
             0,
             0
         };
-        uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp;
-        fprintf(stderr,"POWLIMIT.%s\n",consensus.powLimit.ToString().c_str());
-        for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
+        fprintf(stderr,"start thread to init chainparams\n");
+        if ( pthread_create(malloc(sizeof(pthread_t)),NULL,(void *)chainparams_commandline,(void *)&consensus) != 0 )
         {
-            genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
-            bnTarget.SetCompact(GENESIS_NBITS,&fNegative,&fOverflow);
-            if ( fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(consensus.powLimit) )
-            {
-                fprintf(stderr,"%d %d target > powlimit\n",fNegative,fOverflow);
-                continue;
-            }
-            if ( UintToArith256(genesis.GetHash()) > bnTarget )
-            {
-                tmp = ArithToUint256(bnTarget);
-                fprintf(stderr,"%u: hash %s > target %s\n",nonce,genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
-                continue;
-            }
-            break;
+            
         }
-        if ( nonce == ASSETCHAINS_SUPPLY+1000000 )
-        {
-            fprintf(stderr,"couldnt find nonce, abort\n");
-            exit(-1);
-        }
-        consensus.hashGenesisBlock = genesis.GetHash();
-        fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     }
 };
 static CMainParams mainParams;
+
+void chainparams_commandline(void *ptr)
+{
+    CChainParams *consensus = ptr;
+    uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp;
+    fprintf(stderr,"POWLIMIT.%s\n",consensus->powLimit.ToString().c_str());
+    while ( ASSETCHAINS_PORT == 0 )
+        sleep(1);
+    fprintf(stderr,"after: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
+    for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
+    {
+        genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
+        bnTarget.SetCompact(GENESIS_NBITS,&fNegative,&fOverflow);
+        if ( fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(consensus->powLimit) )
+        {
+            fprintf(stderr,"%d %d target > powlimit\n",fNegative,fOverflow);
+            continue;
+        }
+        if ( UintToArith256(genesis.GetHash()) > bnTarget )
+        {
+            tmp = ArithToUint256(bnTarget);
+            fprintf(stderr,"%u: hash %s > target %s\n",nonce,genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
+            continue;
+        }
+        break;
+    }
+    if ( nonce == ASSETCHAINS_SUPPLY+1000000 )
+    {
+        fprintf(stderr,"couldnt find nonce, abort\n");
+        exit(-1);
+    }
+    consensus->hashGenesisBlock = genesis.GetHash();
+    fprintf(stderr,"%s: port.%u netmagic.%08x %u nonce.%u timestamp.%u nbits.%08x %u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
+}
 
 class CUnlParams : public CChainParams {
 public:
