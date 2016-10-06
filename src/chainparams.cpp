@@ -214,9 +214,10 @@ void *chainparams_commandline(void *ptr)
         if ( UintToArith256(hash) > bnTarget )
         {
             tmp = ArithToUint256(bnTarget);
-            fprintf(stderr,"%u: hash %s > target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
+            //fprintf(stderr,"%u: hash %s > target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
             continue;
         }
+        fprintf(stderr,"%u: hash %s <= target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
         break;
     }
     if ( nonce == ASSETCHAINS_SUPPLY+1000000 )
