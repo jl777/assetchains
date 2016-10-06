@@ -163,7 +163,7 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
-        genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, 1002786, GENESIS_DIFF, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, 1002786, GENESIS_NBITS, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         
         checkpointData = (CCheckpointData) {
