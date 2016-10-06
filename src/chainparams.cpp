@@ -96,6 +96,11 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
  *    timestamp before)
  * + Contains no strange transactions
  */
+uint16_t ASSETCHAINS_PORT = 8777;
+uint32_t ASSETCHAINS_MAGIC = 2387029918;
+uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
+uint64_t ASSETCHAINS_SUPPLY = 1000000;
+
 
 class CMainParams : public CChainParams {
 public:
