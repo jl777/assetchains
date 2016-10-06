@@ -170,7 +170,7 @@ public:
             0,
             0
         };
-        uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget,tmp;
+        uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp;
         for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
         {
             genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
