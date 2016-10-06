@@ -112,7 +112,7 @@ public:
         consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 227931;
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8");
-        consensus.powLimit = uint256S("000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 6; // two weeks/10
         consensus.nPowTargetSpacing = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -171,7 +171,7 @@ public:
             0
         };
         uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget;
-        for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+10000000; nonce++)
+        for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+100000; nonce++)
         {
             genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
             bnTarget.SetCompact(GENESIS_NBITS,&fNegative,&fOverflow);
@@ -181,7 +181,10 @@ public:
                 continue;
             }
             if ( UintToArith256(genesis.GetHash()) > bnTarget )
+            {
+                fprintf(stderr,"%d: hash > target\n",i);
                 continue;
+            }
             break;
         }
         if ( nonce == ASSETCHAINS_SUPPLY+10000000 )
