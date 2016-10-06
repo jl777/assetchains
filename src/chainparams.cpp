@@ -138,12 +138,7 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
-        pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
-        pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;
-        pchMessageStart[3] = (ASSETCHAINS_MAGIC >> 24) & 0xff;
         vAlertPubKey = ParseHex("020e46e79a2a8d12b9b5d12c7a91adb4e454edfae43c0a0cb805427d2ac7613fd9");
-        nDefaultPort = ASSETCHAINS_PORT;
         nMaxTipAge = 24 * 60 * 6;
         nPruneAfterHeight = 10000;
         // BITCOINUNLIMITED START
@@ -167,6 +162,7 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
+        CBlock genesis;
         
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
@@ -186,17 +182,24 @@ static CMainParams mainParams;
 
 void *chainparams_commandline(void *ptr)
 {
-    CChainParams *consensus = ptr;
-    uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp;
-    fprintf(stderr,"POWLIMIT.%s\n",consensus->powLimit.ToString().c_str());
+    CChainParams *consensus = (CChainParams *)ptr;
+    CBlock *genesis = consensus->GenesisBlockPtr();
+    uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp,powlimit;
+    powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
+    fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
     while ( ASSETCHAINS_PORT == 0 )
         sleep(1);
+    consensus->nDefaultPort = ASSETCHAINS_PORT;
+    consensus->pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
+    consensus->pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
+    consensus->pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;
+    consensus->pchMessageStart[3] = (ASSETCHAINS_MAGIC >> 24) & 0xff;
     fprintf(stderr,"after: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
     for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
     {
         genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN);
         bnTarget.SetCompact(GENESIS_NBITS,&fNegative,&fOverflow);
-        if ( fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(consensus->powLimit) )
+        if ( fNegative || bnTarget == 0 || fOverflow || bnTarget > UintToArith256(powlimit) )
         {
             fprintf(stderr,"%d %d target > powlimit\n",fNegative,fOverflow);
             continue;
