@@ -183,7 +183,7 @@ public:
             tmp = genesis.GetHash();
             if ( UintToArith256(tmp) > bnTarget )
             {
-                fprintf(stderr,"%u: hash %llx > target\n",nonce,tmp);
+                fprintf(stderr,"%u: hash %llx > target\n",nonce,(long long)tmp);
                 continue;
             }
             break;
