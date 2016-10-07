@@ -4013,6 +4013,11 @@ CBlockIndex * InsertBlockIndex(uint256 hash)
     return pindexNew;
 }
 
+void set_genesis_tip(uint256 hash)
+{
+    CChain::SetTip(InsertBlockIndex(hash));
+}
+
 bool static LoadBlockIndexDB()
 {
     const CChainParams& chainparams = Params();
