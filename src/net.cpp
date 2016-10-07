@@ -1587,7 +1587,7 @@ void ThreadBitnodesAddressSeed()
             return;
         }
     }
-
+/*
     LogPrintf("Loading addresses from Bitnodes API\n");
 
     vector<string> vIPs;
@@ -1606,7 +1606,7 @@ void ThreadBitnodesAddressSeed()
         addrman.Add(vAdd, CNetAddr("bitnodes.21.co", true));
     }
 
-    LogPrintf("%d addresses found from Bitnodes API\n", vAdd.size());
+    LogPrintf("%d addresses found from Bitnodes API\n", vAdd.size());*/
 }
 // BITCOINUNLIMITED END
 

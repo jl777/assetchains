@@ -437,7 +437,7 @@ void static BitcoinMiner(const CChainParams& chainparams)
             CBlockIndex* pindexPrev = chainActive.Tip();
             while ( pindexPrev->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
                 sleep(1);
-            fprintf(stderr,"Create new block for %d transactions %08x\n",(int32_t)mempool.GetTotalTxSize(),pindexPrev->nBits);
+            fprintf(stderr,"Create new block.%d mempool size %d nBits %08x\n",pindexPrev->nHeight+1,(int32_t)mempool.GetTotalTxSize(),pindexPrev->nBits);
             //
             // Create new block
             //

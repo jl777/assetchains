@@ -36,8 +36,7 @@ class CBaseMainParams : public CBaseChainParams
 public:
     CBaseMainParams()
     {
-        extern uint16_t ASSETCHAINS_PORT;
-        nRPCPort = ASSETCHAINS_PORT + 1;
+        nRPCPort = 8888;
         fprintf(stderr,"nRPCPort %d\n",nRPCPort);
     }
 };
