@@ -4015,7 +4015,7 @@ CBlockIndex * InsertBlockIndex(uint256 hash)
 
 void set_genesis_tip(uint256 hash)
 {
-    chainActive->SetTip(InsertBlockIndex(hash));
+    chainActive.SetTip(InsertBlockIndex(hash));
 }
 
 bool static LoadBlockIndexDB()
