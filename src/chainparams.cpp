@@ -163,8 +163,8 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
-        //genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, 1002786, GENESIS_NBITS, 1, 50 * COIN);
-        //consensus.hashGenesisBlock = genesis.GetHash();
+        genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, 1002786, GENESIS_NBITS, 1, 50 * COIN);
+        consensus.hashGenesisBlock = genesis.GetHash();
         
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
