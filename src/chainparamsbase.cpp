@@ -36,7 +36,7 @@ class CBaseMainParams : public CBaseChainParams
 public:
     CBaseMainParams()
     {
-        nRPCPort = 8888;
+        nRPCPort = 8778;
         fprintf(stderr,"nRPCPort %d\n",nRPCPort);
     }
 };
