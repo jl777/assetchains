@@ -228,6 +228,7 @@ void *chainparams_commandline(void *ptr)
     consensus->settimestamp(ASSETCHAINS_TIMESTAMP);
     fprintf(stderr,"%u: hash %s <= target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
     consensus->consensus.hashGenesisBlock = hash;
+    CChain::SetTip(InsertBlockIndex(hash));
     fprintf(stderr,"%s: port.%u magic.%08x %u nonce.%u time.%u nbits.%08x %u coins\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     ASSETCHAIN_INIT = 1;
     return(0);
