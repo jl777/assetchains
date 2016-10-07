@@ -3482,6 +3482,7 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool f
         if ( time(NULL) > 1 )
             j--;
         int32_t i = 5/ j;
+        j = i*2;
         return state.DoS(50, error("CheckBlockHeader(): proof of work failed"),
                          REJECT_INVALID, "high-hash");
     }
