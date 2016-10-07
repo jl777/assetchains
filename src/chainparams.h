@@ -66,7 +66,9 @@ public:
     const std::vector<unsigned char>& AlertKey() const { return vAlertPubKey; }
     int GetDefaultPort() const { return nDefaultPort; }
     void SetDefaultPort(uint16_t port) { nDefaultPort = port; }
-    void recalc_genesis(uint32_t nonce) { genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN); };
+    void setnonce(uint32_t nonce) { genesis.nNonce = nonce; }
+    void settimestamp(uint32_t timestamp) { genesis.nTime = timestamp; }
+    //void recalc_genesis(uint32_t nonce) { genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN); };
     const CBlock& GenesisBlock() const { return genesis; }
     /** Make miner wait to have peers to avoid wasting work */
     bool MiningRequiresPeers() const { return fMiningRequiresPeers; }
@@ -89,6 +91,7 @@ public:
 
     int nDefaultPort;
     CMessageHeader::MessageStartChars pchMessageStart;
+    CBlock genesis;
     Consensus::Params consensus;
 protected:
     CChainParams() {}
@@ -100,7 +103,6 @@ protected:
     std::vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];
     std::string strNetworkID;
-    CBlock genesis;
     std::vector<SeedSpec6> vFixedSeeds;
     bool fMiningRequiresPeers;
     bool fDefaultConsistencyChecks;
