@@ -228,9 +228,12 @@ void *chainparams_commandline(void *ptr)
     //consensus->recalc_genesis(nonce);
     consensus->setnonce(nonce);
     consensus->settimestamp(ASSETCHAINS_TIMESTAMP);
-    fprintf(stderr,"%u: hash %s <= target %s\n",nonce,hash.ToString().c_str(),tmp.ToString().c_str());
-    consensus->consensus.hashGenesisBlock = hash;
-    set_genesis_tip(hash);
+    fprintf(stderr,"%u: merkle %s hash %s <= target %s\n",nonce,genesis.hashMerkleRoot.ToString().c_str(),genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
+    consensus->consensus.hashGenesisBlock = genesis.GetHash();
+    genesis = consensus->GenesisBlock();
+    fprintf(stderr,"%u: hash %s merkle %s timestamp.%u\n",nonce,genesis.GetHash().ToString().c_str(),genesis.hashMerkleRoot.ToString().c_str(),ASSETCHAINS_TIMESTAMP);
+
+    //set_genesis_tip(hash);
     fprintf(stderr,"%s: port.%u magic.%08x %u nonce.%u time.%u nbits.%08x %u coins\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     ASSETCHAIN_INIT = 1;
     return(0);
