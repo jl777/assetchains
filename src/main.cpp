@@ -3474,6 +3474,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
+    fprintf(stderr,"hash %s, merkle %s\n",block.GetHash().ToString().c_str(),block.hashMerkleRoot.ToString().c_str());
     fprintf(stderr,"inside checkblockheader nbits.%08x time.%u nonce.%u\n",block.nBits,block.nTime,block.nNonce);
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus()))
