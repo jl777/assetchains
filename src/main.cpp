@@ -3474,15 +3474,10 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
-    int32_t j = 1;
-    fprintf(stderr,"insie checkblockheader\n");
+    fprintf(stderr,"inside checkblockheader nbits.%08x time.%u nonce.%u\n",block.nBits,block.nTime,block.nNonce);
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus()))
     {
-        if ( time(NULL) > 1 )
-            j--;
-        int32_t i = 5/ j;
-        j = i*2;
         return state.DoS(50, error("CheckBlockHeader(): proof of work failed"),
                          REJECT_INVALID, "high-hash");
     }
