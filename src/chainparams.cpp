@@ -187,7 +187,7 @@ void set_genesis_tip(uint256 hash);
 void *chainparams_commandline(void *ptr)
 {
     CChainParams *consensus = (CChainParams *)ptr;
-    CBlock genesis;
+    static CBlock genesis;
     uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp,hash,powlimit;
     powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
     //fprintf(stderr,"POWLIMIT.%s\n",powlimit.ToString().c_str());
