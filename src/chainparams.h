@@ -69,7 +69,7 @@ public:
     void setnonce(uint32_t nonce) { genesis.nNonce = nonce; }
     void settimestamp(uint32_t timestamp) { genesis.nTime = timestamp; }
     void setgenesis(CBlock &block) { genesis = block; }
-    //void recalc_genesis(uint32_t nonce) { genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN); };
+    void recalc_genesis(uint32_t nonce) { genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, nonce, GENESIS_NBITS, 1, COIN); };
     const CBlock& GenesisBlock() const { return genesis; }
     /** Make miner wait to have peers to avoid wasting work */
     bool MiningRequiresPeers() const { return fMiningRequiresPeers; }

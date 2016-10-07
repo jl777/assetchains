@@ -229,7 +229,7 @@ void *chainparams_commandline(void *ptr)
     consensus->settimestamp(ASSETCHAINS_TIMESTAMP);
     fprintf(stderr,"%u: merkle %s hash %s <= target %s\n",nonce,genesis.hashMerkleRoot.ToString().c_str(),genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
     consensus->consensus.hashGenesisBlock = genesis.GetHash();
-    consensus->setgenesis(genesis);
+    consensus->recalcgenesis(nonce);
     fprintf(stderr,"%u: hash %s merkle %s timestamp.%u\n",consensus->GenesisBlock().nNonce,consensus->GenesisBlock().GetHash().ToString().c_str(),consensus->GenesisBlock().hashMerkleRoot.ToString().c_str(),consensus->GenesisBlock().nTime);
 
     //set_genesis_tip(hash);
