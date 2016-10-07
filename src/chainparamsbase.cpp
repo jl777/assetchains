@@ -10,6 +10,7 @@
 #include "util.h"
 
 #include <assert.h>
+#include <stdio.h>
 
 const std::string CBaseChainParams::MAIN = "main";
 const std::string CBaseChainParams::UNL = "nol";
@@ -37,6 +38,7 @@ public:
     {
         extern uint16_t ASSETCHAINS_PORT;
         nRPCPort = ASSETCHAINS_PORT + 1;
+        fprintf(stderr,"nRPCPort %d\n",nRPCPort);
     }
 };
 static CBaseMainParams mainParams;
