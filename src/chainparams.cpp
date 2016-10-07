@@ -163,8 +163,8 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
-        genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, 1002786, GENESIS_NBITS, 1, 50 * COIN);
-        consensus.hashGenesisBlock = genesis.GetHash();
+        //genesis = CreateGenesisBlock(ASSETCHAINS_TIMESTAMP, 1002786, GENESIS_NBITS, 1, 50 * COIN);
+        //consensus.hashGenesisBlock = genesis.GetHash();
         
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
@@ -225,12 +225,11 @@ void *chainparams_commandline(void *ptr)
         fprintf(stderr,"couldnt find nonce, abort\n");
         exit(-1);
     }
-    //consensus->recalc_genesis(nonce);
     consensus->setnonce(nonce);
     consensus->settimestamp(ASSETCHAINS_TIMESTAMP);
     fprintf(stderr,"%u: merkle %s hash %s <= target %s\n",nonce,genesis.hashMerkleRoot.ToString().c_str(),genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
     consensus->consensus.hashGenesisBlock = genesis.GetHash();
-    fprintf(stderr,"%u: hash %s merkle %s timestamp.%u\n",nonce,consensus->GenesisBlock().GetHash().ToString().c_str(),consensus->GenesisBlock().hashMerkleRoot.ToString().c_str(),consensus->GenesisBlock().nTime);
+    fprintf(stderr,"%u: hash %s merkle %s timestamp.%u\n",consensus->GenesisBlock().nNonce,consensus->GenesisBlock().GetHash().ToString().c_str(),consensus->GenesisBlock().hashMerkleRoot.ToString().c_str(),consensus->GenesisBlock().nTime);
 
     //set_genesis_tip(hash);
     fprintf(stderr,"%s: port.%u magic.%08x %u nonce.%u time.%u nbits.%08x %u coins\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
