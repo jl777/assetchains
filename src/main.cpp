@@ -1737,6 +1737,7 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
+    fprintf(stderr,"from disk\n");
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
@@ -3473,11 +3474,17 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
+    int32_t j = 1;
+    fprintf(stderr,"insie checkblockheader\n");
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus()))
+    {
+        if ( time(NULL) > 1 )
+            j--;
+        int32_t i = 5/ j;
         return state.DoS(50, error("CheckBlockHeader(): proof of work failed"),
                          REJECT_INVALID, "high-hash");
-
+    }
     // Check timestamp
     if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
         return state.Invalid(error("CheckBlockHeader(): block timestamp too far in the future"),
@@ -3666,7 +3673,7 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
                 return state.Invalid(error("%s: block is marked invalid", __func__), 0, "duplicate");
             return true;
         }
-
+fprintf(stderr,"from accept\n");
         if (!CheckBlockHeader(block, state))
             return false;
 
