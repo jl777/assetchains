@@ -186,7 +186,7 @@ void set_genesis_tip(uint256 hash);
 
 void *chainparams_commandline(void *ptr)
 {
-    CChainParams *consensus = (CChainParams *)ptr;
+    //CChainParams *consensus = (CChainParams *)ptr;
     static CBlock genesis;
     uint32_t nonce; bool fNegative,fOverflow; arith_uint256 bnTarget; uint256 tmp,hash,powlimit;
     powlimit = uint256S("000fffff00000000000000000000000000000000000000000000000000000000");
@@ -196,11 +196,11 @@ void *chainparams_commandline(void *ptr)
         sleep(1);
         //fprintf(stderr,"port.%u\n",ASSETCHAINS_PORT);
     }
-    consensus->SetDefaultPort(ASSETCHAINS_PORT);
-    consensus->pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
-    consensus->pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
-    consensus->pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;
-    consensus->pchMessageStart[3] = (ASSETCHAINS_MAGIC >> 24) & 0xff;
+    mainParams.SetDefaultPort(ASSETCHAINS_PORT);
+    mainParams.pchMessageStart[0] = ASSETCHAINS_MAGIC & 0xff;
+    mainParams.pchMessageStart[1] = (ASSETCHAINS_MAGIC >> 8) & 0xff;
+    mainParams.pchMessageStart[2] = (ASSETCHAINS_MAGIC >> 16) & 0xff;
+    mainParams.pchMessageStart[3] = (ASSETCHAINS_MAGIC >> 24) & 0xff;
     //fprintf(stderr,"%s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
     for (nonce=ASSETCHAINS_SUPPLY; nonce<ASSETCHAINS_SUPPLY+1000000; nonce++)
     {
@@ -225,12 +225,12 @@ void *chainparams_commandline(void *ptr)
         fprintf(stderr,"couldnt find nonce, abort\n");
         exit(-1);
     }
-    consensus->setnonce(nonce);
-    consensus->settimestamp(ASSETCHAINS_TIMESTAMP);
+    mainParams.setnonce(nonce);
+    mainParams.settimestamp(ASSETCHAINS_TIMESTAMP);
     fprintf(stderr,"%u: merkle %s hash %s <= target %s\n",nonce,genesis.hashMerkleRoot.ToString().c_str(),genesis.GetHash().ToString().c_str(),tmp.ToString().c_str());
-    consensus->consensus.hashGenesisBlock = genesis.GetHash();
-    consensus->recalcgenesis(nonce);
-    fprintf(stderr,"%u: hash %s merkle %s timestamp.%u\n",consensus->GenesisBlock().nNonce,consensus->GenesisBlock().GetHash().ToString().c_str(),consensus->GenesisBlock().hashMerkleRoot.ToString().c_str(),consensus->GenesisBlock().nTime);
+    mainParams.consensus.hashGenesisBlock = genesis.GetHash();
+    mainParams.recalc_genesis(nonce);
+    fprintf(stderr,"%u: hash %s merkle %s timestamp.%u\n",mainParams.GenesisBlock().nNonce,mainParams.GenesisBlock().GetHash().ToString().c_str(),mainParams.GenesisBlock().hashMerkleRoot.ToString().c_str(),mainParams.GenesisBlock().nTime);
 
     //set_genesis_tip(hash);
     fprintf(stderr,"%s: port.%u magic.%08x %u nonce.%u time.%u nbits.%08x %u coins\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
