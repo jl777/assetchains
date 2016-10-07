@@ -1737,7 +1737,6 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-    fprintf(stderr,"from disk\n");
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
@@ -3474,8 +3473,8 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW)
 {
-    fprintf(stderr,"hash %s, merkle %s\n",block.GetHash().ToString().c_str(),block.hashMerkleRoot.ToString().c_str());
-    fprintf(stderr,"inside checkblockheader nbits.%08x time.%u nonce.%u\n",block.nBits,block.nTime,block.nNonce);
+    //fprintf(stderr,"hash %s, merkle %s\n",block.GetHash().ToString().c_str(),block.hashMerkleRoot.ToString().c_str());
+    //fprintf(stderr,"inside checkblockheader nbits.%08x time.%u nonce.%u\n",block.nBits,block.nTime,block.nNonce);
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus()))
     {
@@ -3670,7 +3669,7 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
                 return state.Invalid(error("%s: block is marked invalid", __func__), 0, "duplicate");
             return true;
         }
-fprintf(stderr,"from accept\n");
+//fprintf(stderr,"from accept\n");
         if (!CheckBlockHeader(block, state))
             return false;
 
