@@ -419,7 +419,6 @@ const CRPCCommand *CRPCTable::operator[](const std::string &name) const
 bool StartRPC()
 {
     LogPrint("rpc", "Starting RPC\n");
-    fprintf(stderr,"Start RPC.%u\n",BaseParams().nRPCPort);
     fRPCRunning = true;
     g_rpcSignals.Started();
     return true;
