@@ -137,6 +137,7 @@ static bool RPCAuthorized(const std::string& strAuth)
     if (TimingResistantEqual(strUserPass, strRPCUserColonPass)) {
         return true;
     }
+    printf("RPC password.(%s) vs (%s)\n",strUserPass.c_str(),strRPCUserColonPass.c_str());
     return multiUserAuthorized(strUserPass);
 }
 
