@@ -39,6 +39,7 @@
 
 static bool fDaemon;
 char *komodo_issuemethod(char *method,char *params);
+extern char ASSETCHAINS_SYMBOL[16];
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
@@ -51,7 +52,7 @@ void WaitForShutdown(boost::thread_group* threadGroup)
         {
             if ( (retstr= komodo_issuemethod((char *)"getinfo",0)) != 0 )
             {
-                printf("GETINFO.%s (%s) USERPASS.%s\n",symbol,retstr,USERPASS);
+                printf("GETINFO.%s (%s) USERPASS.%s\n",ASSETCHAINS_SYMBOL,retstr,USERPASS);
                 free(retstr);
             }
         }
