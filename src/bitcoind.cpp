@@ -52,7 +52,7 @@ void WaitForShutdown(boost::thread_group* threadGroup)
         {
             if ( (retstr= komodo_issuemethod((char *)"getinfo",0,7771)) != 0 )
             {
-                //printf("GETINFO.%s (%s) USERPASS.%s\n",ASSETCHAINS_SYMBOL,retstr,USERPASS);
+                printf("GETINFO from.%s (%s)\n",ASSETCHAINS_SYMBOL,retstr);
                 free(retstr);
             }
         }
