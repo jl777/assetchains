@@ -91,7 +91,6 @@ bool AppInit(int argc, char* argv[])
     ASSETCHAINS_MAGIC = calc_crc32(0,buf,len);
     ASSETCHAINS_PORT = GetArg("-ac_port",8000 + (ASSETCHAINS_MAGIC % 7777));
     fprintf(stderr,"after args: %s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
-    BaseParams().nRPCPort = ASSETCHAINS_PORT+1;
     while ( ASSETCHAIN_INIT == 0 )
     {
         sleep(1);
@@ -178,10 +177,11 @@ bool AppInit(int argc, char* argv[])
         SoftSetBoolArg("-server", true);
 
         // Set this early so that parameter interactions go to console
+        BaseParams().nRPCPort = ASSETCHAINS_PORT+1;
         InitLogging();
         InitParameterInteraction();
         fRet = AppInit2(threadGroup, scheduler);
-        komodo_configfile(ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT+1);
+        komodo_configfile(ASSETCHAINS_SYMBOL,BaseParams().nRPCPort);
     }
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");
