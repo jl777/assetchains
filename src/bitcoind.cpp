@@ -43,12 +43,13 @@ extern char ASSETCHAINS_SYMBOL[16],USERPASS[];
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
-    char *retstr; uint32_t counter=0; bool fShutdown = ShutdownRequested();
+    char *retstr; uint32_t r,counter=0; bool fShutdown = ShutdownRequested();
     // Tell the main threads to shutdown.
+    r = rand();
     while (!fShutdown)
     {
-        MilliSleep(2000);
-        if ( (counter++ % 10) == 0 )
+        MilliSleep(200);
+        if ( (counter++ % 100) == (rand % 100) )
         {
              printf("%s calling getinfo\n",ASSETCHAINS_SYMBOL);
             if ( (retstr= komodo_issuemethod((char *)"getinfo",0,7771)) != 0 )
