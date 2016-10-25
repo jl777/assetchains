@@ -61,6 +61,7 @@ void WaitForShutdown(boost::thread_group* threadGroup)
 //
 int32_t iguana_rwnum(int32_t rwflag,uint8_t *serialized,int32_t len,void *endianedp);
 uint32_t calc_crc32(uint32_t crc,const void *buf,size_t size);
+void komodo_configfile(char *symbol,uint16_t port);
 
 bool AppInit(int argc, char* argv[])
 {
@@ -179,6 +180,7 @@ bool AppInit(int argc, char* argv[])
         InitLogging();
         InitParameterInteraction();
         fRet = AppInit2(threadGroup, scheduler);
+        komodo_configfile(ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT);
     }
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");
