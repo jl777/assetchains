@@ -127,7 +127,7 @@ const string strMessageMagic = "Bitcoin Signed Message:\n";
 // 5. Make sure notarized tx are being made by notaries running iguana notary dapp. replace the notaries.h and komodo_notary.h list if using your own notary nodes.
 
 extern char ASSETCHAINS_SYMBOL[16];
-uint8_t NOTARY_PUBKEY33[33];
+std::string NOTARY_PUBKEY; uint8_t NOTARY_PUBKEY33[33];
 #define KOMODO_SOURCE ASSETCHAINS_SYMBOL
 #define KOMODO_ISSUER // needed only if doing crosschain gateway
 #include "../../komodo/src/komodo.h"
@@ -2218,7 +2218,7 @@ bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockI
         *pfClean = false;
 
     bool fClean = true;
-    komodo_disconnect(pindex,*(CBlock *)&block);
+    komodo_disconnect((CBlockIndex *)pindex,*(CBlock *)&block);
 
     CBlockUndo blockUndo;
     CDiskBlockPos pos = pindex->GetUndoPos();
