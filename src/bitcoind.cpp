@@ -85,7 +85,7 @@ bool AppInit(int argc, char* argv[])
     uint8_t buf[512]; int32_t len;
     len = iguana_rwnum(1,buf,sizeof(ASSETCHAINS_TIMESTAMP),(void *)&ASSETCHAINS_TIMESTAMP);
     len += iguana_rwnum(1,&buf[len],sizeof(ASSETCHAINS_SUPPLY),(void *)&ASSETCHAINS_SUPPLY);
-    strcpy(&buf[len],ASSETCHAINS_SYMBOL);
+    strcpy((char *)&buf[len],ASSETCHAINS_SYMBOL);
     len += strlen(ASSETCHAINS_SYMBOL);
     ASSETCHAINS_MAGIC = calc_crc32(0,buf,len);
     ASSETCHAINS_PORT = GetArg("-ac_port",8777);
