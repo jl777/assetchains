@@ -48,7 +48,7 @@ EXTRA_LIBRARIES = \
   libbitcoin_util.a \
   libbitcoin_common.a \
   libbitcoin_server.a \
-  libbitcoin_cli.a
+  libbitcoin_cli.a -lcurl
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 EXTRA_LIBRARIES += libbitcoin_wallet.a

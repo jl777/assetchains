@@ -116,6 +116,22 @@ CScript COINBASE_FLAGS;
 
 const string strMessageMagic = "Bitcoin Signed Message:\n";
 
+// dPoW integration steps:
+// 0. make sure komodo is installed parallel to this project so ../../komodo/src/komodo.h is right
+// 1. include komodo.h with KOMODO_SOURCE being the string of coin symbol
+// 2. add extra test to ContextualCheckBlockHeader()
+//    else if ( komodo_checkpoint(&notarized_height,nHeight,hash) < 0 )
+//        return state.DoS(100, error("%s: forked chain %d older than last notarized (height %d) vs %d", __func__,nHeight, notarized_height));
+// 3. call komodo_connectblock(pindex,*(CBlock *)&block) at the end of ConnectBlock()
+// 4. call komodo_disconnect(pindex,block) at the start of DisconnectBlock()
+// 5. Make sure notarized tx are being made by notaries running iguana notary dapp. replace the notaries.h and komodo_notary.h list if using your own notary nodes.
+
+extern char ASSETCHAINS_SYMBOL[16];
+#define KOMODO_SOURCE ASSETCHAINS_SYMBOL
+#define KOMODO_ISSUER // needed only if doing crosschain gateway
+#include "../../komodo/src/komodo.h"
+
+
 // Internal stuff
 namespace {
 
@@ -1568,7 +1584,10 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState &state, const C
         // Check against previous transactions
         // This is done last to help prevent CPU exhaustion denial-of-service attacks.
         if (!CheckInputs(tx, state, view, true, STANDARD_SCRIPT_VERIFY_FLAGS, true))
+        {
+            fprintf(stderr,"checkinputs error\n");
             return false;
+        }
 
         // Check again against just the consensus-critical mandatory script
         // verification flags, in case of bugs in the standard flags that cause
@@ -2198,6 +2217,7 @@ bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockI
         *pfClean = false;
 
     bool fClean = true;
+    komodo_disconnect(pindex,block);
 
     CBlockUndo blockUndo;
     CDiskBlockPos pos = pindex->GetUndoPos();
@@ -3571,9 +3591,31 @@ bool CheckIndexAgainstCheckpoint(const CBlockIndex* pindexPrev, CValidationState
     int nHeight = pindexPrev->nHeight+1;
     // Don't accept any forks from the main chain prior to last checkpoint
     CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(chainparams.Checkpoints());
-    if (pcheckpoint && nHeight < pcheckpoint->nHeight)
+    if ( pcheckpoint != 0 && nHeight < pcheckpoint->nHeight )
         return state.DoS(100, error("%s: forked chain older than last checkpoint (height %d)", __func__, nHeight));
-
+    else
+    {
+        int32_t notarized_height; uint256 notarized_hash,notarized_desttxid; CBlockIndex *notary;
+        notarized_height = komodo_notarizeddata(chainActive.Tip()->nHeight,&notarized_hash,&notarized_desttxid);
+        if ( (notary= mapBlockIndex[notarized_hash]) != 0 )
+        {
+            //printf("nHeight.%d -> (%d %s)\n",chainActive.Tip()->nHeight,notarized_height,notarized_hash.ToString().c_str());
+            if ( notary->nHeight == notarized_height ) // if notarized_hash not in chain, reorg
+            {
+                if ( nHeight < notarized_height )
+                {
+                    fprintf(stderr,"nHeight.%d < NOTARIZED_HEIGHT.%d\n",nHeight,notarized_height);
+                    return state.DoS(100, error("%s: forked chain older than last notarized (height %d) vs %d", __func__,nHeight, notarized_height));
+                }
+                else if ( nHeight == notarized_height && memcmp(&hash,&notarized_hash,sizeof(hash)) != 0 )
+                {
+                    fprintf(stderr,"nHeight.%d == NOTARIZED_HEIGHT.%d, diff hash\n",nHeight,notarized_height);
+                    return state.DoS(100, error("%s: forked chain at notarized (height %d) with different hash", __func__, notarized_height));
+                }
+            } else fprintf(stderr,"notary_hash %s ht.%d at ht.%d\n",notarized_hash.ToString().c_str(),notarized_height,notary->nHeight);
+        } else if ( notarized_height > 0 )
+            fprintf(stderr,"couldnt find notary_hash %s ht.%d\n",notarized_hash.ToString().c_str(),notarized_height);
+    }
     return true;
 }
 
