@@ -39,7 +39,7 @@
 
 static bool fDaemon;
 char *komodo_issuemethod(char *method,char *params);
-extern char ASSETCHAINS_SYMBOL[16];
+extern char ASSETCHAINS_SYMBOL[16],USERPASS[];
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
