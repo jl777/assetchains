@@ -47,14 +47,15 @@ void WaitForShutdown(boost::thread_group* threadGroup)
     // Tell the main threads to shutdown.
     while (!fShutdown)
     {
-        MilliSleep(200);
-        if ( (counter++ % 100) == 0 )
+        MilliSleep(2000);
+        if ( (counter++ % 10) == 0 )
         {
+            printf("%s calling getinfo\n",ASSETCHAINS_SYMBOL);
             if ( (retstr= komodo_issuemethod((char *)"getinfo",0,7771)) != 0 )
             {
                 printf("GETINFO from.%s (%s)\n",ASSETCHAINS_SYMBOL,retstr);
                 free(retstr);
-            }
+            } else printf("error from %s\n",ASSETCHAINS_SYMBOL);
         }
         fShutdown = ShutdownRequested();
     }
