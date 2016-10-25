@@ -123,7 +123,7 @@ const string strMessageMagic = "Bitcoin Signed Message:\n";
 //    else if ( komodo_checkpoint(&notarized_height,nHeight,hash) < 0 )
 //        return state.DoS(100, error("%s: forked chain %d older than last notarized (height %d) vs %d", __func__,nHeight, notarized_height));
 // 3. call komodo_connectblock(pindex,*(CBlock *)&block) at the end of ConnectBlock()
-// 4. call komodo_disconnect(pindex,block) at the start of DisconnectBlock()
+// 4. call komodo_disconnect((CBlockIndex *)pindex,block) at the start of DisconnectBlock()
 // 5. Make sure notarized tx are being made by notaries running iguana notary dapp. replace the notaries.h and komodo_notary.h list if using your own notary nodes.
 
 extern char ASSETCHAINS_SYMBOL[16];
@@ -2217,7 +2217,7 @@ bool DisconnectBlock(const CBlock& block, CValidationState& state, const CBlockI
         *pfClean = false;
 
     bool fClean = true;
-    komodo_disconnect(pindex,block);
+    komodo_disconnect((CBlockIndex *)pindex,block);
 
     CBlockUndo blockUndo;
     CDiskBlockPos pos = pindex->GetUndoPos();
