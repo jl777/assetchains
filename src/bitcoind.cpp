@@ -180,7 +180,7 @@ bool AppInit(int argc, char* argv[])
         InitLogging();
         InitParameterInteraction();
         fRet = AppInit2(threadGroup, scheduler);
-        komodo_configfile(ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT);
+        komodo_configfile(ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT+1);
     }
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");
