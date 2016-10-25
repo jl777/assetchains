@@ -33,7 +33,8 @@ LIBBITCOIN_UTIL=libbitcoin_util.a
 LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
 LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
-LIBUNIVALUE=univalue/libunivalue.la
+LIBUNIVALUE=univalue/libunivalue.la -lcurl
+
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
@@ -48,7 +49,7 @@ EXTRA_LIBRARIES = \
   libbitcoin_util.a \
   libbitcoin_common.a \
   libbitcoin_server.a \
-  libbitcoin_cli.a -lcurl
+  libbitcoin_cli.a 
 if ENABLE_WALLET
 BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
 EXTRA_LIBRARIES += libbitcoin_wallet.a
