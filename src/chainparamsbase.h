@@ -13,7 +13,7 @@
  * CBaseChainParams defines the base parameters (shared between bitcoin-cli and bitcoind)
  * of a given instance of the Bitcoin system.
  */
-extern int32_t ASSETCHAINS_PORT;
+extern int ASSETCHAINS_PORT;
 
 class CBaseChainParams
 {
