@@ -38,8 +38,9 @@
  */
 
 static bool fDaemon;
-char *komodo_issuemethod(char *method,char *params,uint16_t port);
-extern char ASSETCHAINS_SYMBOL[16],USERPASS[];
+//char *komodo_issuemethod(char *method,char *params,uint16_t port);
+//extern char ASSETCHAINS_SYMBOL[16],USERPASS[];
+void komodo_gateway_iteration();
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
