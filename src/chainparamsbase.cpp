@@ -37,7 +37,7 @@ public:
     CBaseMainParams()
     {
         nRPCPort = 8778;
-        fprintf(stderr,"nRPCPort %d\n",nRPCPort);
+        //fprintf(stderr,"nRPCPort %d\n",nRPCPort);
     }
 };
 static CBaseMainParams mainParams;
