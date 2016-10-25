@@ -17,7 +17,7 @@
 extern uint32_t ASSETCHAINS_MAGIC;
 extern uint32_t ASSETCHAINS_TIMESTAMP;
 
-#define GENESIS_NBITS 0x1f0fffff
+#define GENESIS_NBITS 0x1f00ffff
 void *chainparams_commandline(void *ptr);
  CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward);
 
