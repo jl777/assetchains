@@ -177,7 +177,7 @@ bool AppInit(int argc, char* argv[])
         SoftSetBoolArg("-server", true);
 
         // Set this early so that parameter interactions go to console
-        BaseParams().nRPCPort = ASSETCHAINS_PORT+1;
+        //BaseParams().nRPCPort = ASSETCHAINS_PORT+1;
         InitLogging();
         InitParameterInteraction();
         fRet = AppInit2(threadGroup, scheduler);
