@@ -98,7 +98,7 @@ CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32
  */
 extern char ASSETCHAINS_SYMBOL[16];
 
-uint16_t ASSETCHAINS_PORT = 0;
+extern uint16_t ASSETCHAINS_PORT;
 uint32_t ASSETCHAIN_INIT = 0;
 uint32_t ASSETCHAINS_MAGIC = 2387029918;
 uint32_t ASSETCHAINS_TIMESTAMP = 1475772963;
