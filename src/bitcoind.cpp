@@ -50,7 +50,7 @@ void WaitForShutdown(boost::thread_group* threadGroup)
         MilliSleep(2000);
         if ( (counter++ % 10) == 0 )
         {
-            printf("%s calling getinfo\n",ASSETCHAINS_SYMBOL);
+             printf("%s calling getinfo\n",ASSETCHAINS_SYMBOL);
             if ( (retstr= komodo_issuemethod((char *)"getinfo",0,7771)) != 0 )
             {
                 printf("GETINFO from.%s (%s)\n",ASSETCHAINS_SYMBOL,retstr);
