@@ -43,7 +43,7 @@ extern char ASSETCHAINS_SYMBOL[16],USERPASS[];
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
-    char *retstr; uint32_t counter; bool fShutdown = ShutdownRequested();
+    char *retstr; uint32_t counter=0; bool fShutdown = ShutdownRequested();
     // Tell the main threads to shutdown.
     while (!fShutdown)
     {
