@@ -38,14 +38,23 @@
  */
 
 static bool fDaemon;
+char *komodo_issuemethod(char *method,char *params);
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {
-    bool fShutdown = ShutdownRequested();
+    char *retstr; uint32_t counter; bool fShutdown = ShutdownRequested();
     // Tell the main threads to shutdown.
     while (!fShutdown)
     {
         MilliSleep(200);
+        if ( (counter++ % 100) == 0 )
+        {
+            if ( (retstr= komodo_issuemethod((char *)"getinfo",0)) != 0 )
+            {
+                printf("GETINFO.%s (%s) USERPASS.%s\n",symbol,retstr,USERPASS);
+                free(retstr);
+            }
+        }
         fShutdown = ShutdownRequested();
     }
     if (threadGroup)
