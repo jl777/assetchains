@@ -14,7 +14,7 @@
  * of a given instance of the Bitcoin system.
  */
 #include <stdint.h>
-uint16_t ASSETCHAINS_PORT;
+extern uint16_t ASSETCHAINS_PORT;
 
 class CBaseChainParams
 {

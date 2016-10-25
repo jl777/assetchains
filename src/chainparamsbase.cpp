@@ -12,6 +12,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+uint16_t ASSETCHAINS_PORT;
+
 const std::string CBaseChainParams::MAIN = "main";
 const std::string CBaseChainParams::UNL = "nol";
 const std::string CBaseChainParams::TESTNET = "test";
