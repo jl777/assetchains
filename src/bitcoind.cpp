@@ -59,6 +59,9 @@ void WaitForShutdown(boost::thread_group* threadGroup)
 //
 // Start
 //
+int32_t iguana_rwnum(int32_t rwflag,uint8_t *serialized,int32_t len,void *endianedp);
+uint32_t calc_crc32(uint32_t crc,const void *buf,size_t size);
+
 bool AppInit(int argc, char* argv[])
 {
     boost::thread_group threadGroup;
