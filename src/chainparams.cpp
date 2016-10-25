@@ -234,7 +234,7 @@ void *chainparams_commandline(void *ptr)
 
     //set_genesis_tip(hash);
     SelectBaseParams("main");
-    BaseParams().nRPCPort = ASSETCHAINS_PORT + 1;
+    //BaseParams().nRPCPort = ASSETCHAINS_PORT + 1;
     fprintf(stderr,">>>>>>>>>> %s: port.%u/%u magic.%08x %u nonce.%u time.%u nbits.%08x %u coins\n",ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,BaseParams().nRPCPort,ASSETCHAINS_MAGIC,ASSETCHAINS_MAGIC,nonce,ASSETCHAINS_TIMESTAMP,GENESIS_NBITS,(uint32_t)ASSETCHAINS_SUPPLY);
     ASSETCHAIN_INIT = 1;
     return(0);
