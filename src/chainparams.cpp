@@ -120,7 +120,7 @@ public:
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8");
         consensus.powLimit = uint256S("0000ffff00000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 6; // two weeks/10
-        consensus.nPowTargetSpacing = 60;
+        consensus.nPowTargetSpacing = 600;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1814; // 90% of 2016
