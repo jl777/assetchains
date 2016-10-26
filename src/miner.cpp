@@ -86,9 +86,11 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     while ( chainActive.Tip()->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
     {
         sleep(10);
-        printf("KOMODO_DEPOSIT %llu pblock->nHeight %d mempool.GetTotalTxSize(%d)\n",(long long)KOMODO_DEPOSIT,(int32_t)chainActive.Tip()->nHeight,(int32_t)mempool.GetTotalTxSize());
         if ( KOMODO_DEPOSIT != 0 )
+        {
+            printf("KOMODO_DEPOSIT %llu pblock->nHeight %d mempool.GetTotalTxSize(%d)\n",(long long)KOMODO_DEPOSIT,(int32_t)chainActive.Tip()->nHeight,(int32_t)mempool.GetTotalTxSize());
             break;
+        }
     }
     // Create coinbase tx
     CMutableTransaction txNew;
