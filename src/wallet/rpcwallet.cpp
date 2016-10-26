@@ -457,6 +457,44 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
     return wtx.GetHash().GetHex();
 }
 
+uint64_t PAX_fiatdest(char *destaddr,uint8_t pubkey33[33],char *coinaddr,int32_t height,char *base,int64_t fiatoshis);
+int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
+#define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
+
+Value paxdeposit(const Array& params, bool fHelp)
+{
+    uint64_t komodoshis = 0; char destaddr[64]; uint8_t i,pubkey33[33];
+    bool fSubtractFeeFromAmount = false;
+    if (!EnsureWalletIsAvailable(fHelp))
+        return Value::null;
+    if (fHelp || params.size() != 3)
+        throw runtime_error("paxdeposit \"address\" [-]fiatoshis \"base\"\nnegative fiatoshis means a short position, long position capped at 100% gain");
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+    CBitcoinAddress address(params[0].get_str());
+    if (!address.IsValid())
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Bitcoin address");
+    int64_t fiatoshis = atof(params[1].get_str().c_str()) * COIN;
+    std::string base = params[2].get_str();
+    std::string dest;
+    komodoshis = PAX_fiatdest(destaddr,pubkey33,(char *)params[0].get_str().c_str(),chainActive.Tip()->nHeight,(char *)base.c_str(),fiatoshis);
+    dest.append(destaddr);
+    CBitcoinAddress destaddress(CRYPTO777_KMDADDR);
+    if (!destaddress.IsValid())
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid dest Bitcoin address");
+    
+    for (i=0; i<33; i++)
+        printf("%02x",pubkey33[i]);
+    printf(" ht.%d srcaddr.(%s) %s fiatoshis.%lld -> dest.(%s) komodoshis.%llu\n",chainActive.Tip()->nHeight,(char *)params[0].get_str().c_str(),(char *)base.c_str(),(long long)fiatoshis,destaddr,(long long)komodoshis);
+    EnsureWalletIsUnlocked();
+    CWalletTx wtx;
+    uint8_t opretbuf[64]; int32_t opretlen; uint64_t fee = komodoshis / 1000;
+    if ( fee < 10000 )
+        fee = 10000;
+    opretlen = komodo_opreturnscript(opretbuf,'D',pubkey33,33);
+    SendMoney(destaddress.Get(),fee,fSubtractFeeFromAmount,wtx,opretbuf,opretlen,komodoshis);
+    return wtx.GetHash().GetHex();
+}
+
 UniValue listaddressgroupings(const UniValue& params, bool fHelp)
 {
     if (!EnsureWalletIsAvailable(fHelp))
