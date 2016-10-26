@@ -73,6 +73,9 @@ int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParam
     return nNewTime - nOldTime;
 }
 
+extern uint64_t KOMODO_DEPOSIT; extern uint8_t KOMODO_SCRIPTPUBKEY[25];
+int32_t PENDING_KOMODO_TX;
+
 CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& scriptPubKeyIn)
 {
     // Create new block
@@ -85,8 +88,25 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     CMutableTransaction txNew;
     txNew.vin.resize(1);
     txNew.vin[0].prevout.SetNull();
-    txNew.vout.resize(1);
+    if ( KOMODO_DEPOSIT != 0 )
+    {
+        int32_t i; uint8_t *ptr;
+        txNew.vout.resize(2);
+        txNew.vout[1].nValue = KOMODO_DEPOSIT;
+        txNew.vout[1].scriptPubKey.resize(25);
+        ptr = (uint8_t *)&txNew.vout[1].scriptPubKey[0];
+        for (i=0; i<25; i++)
+        {
+            ptr[i] = KOMODO_SCRIPTPUBKEY[i];
+            printf("%02x",ptr[i]);
+        }
+        printf(" DEPOSIT %.8f\n",(double)KOMODO_DEPOSIT/COIN);
+        KOMODO_DEPOSIT = 0;
+        memset(KOMODO_SCRIPTPUBKEY,0,25);
+        PENDING_KOMODO_TX = 1;
+    } else txNew.vout.resize(1);
     txNew.vout[0].scriptPubKey = scriptPubKeyIn;
+
 
     // Add dummy coinbase tx as first transaction
     pblock->vtx.push_back(CTransaction());
@@ -436,7 +456,12 @@ void static BitcoinMiner(const CChainParams& chainparams)
             }
             CBlockIndex* pindexPrev = chainActive.Tip();
             while ( pindexPrev->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
+            {
                 sleep(1);
+                if ( PENDING_KOMODO_TX != 0 )
+                    break;
+            }
+            PENDING_KOMODO_TX = 0;
             fprintf(stderr,"Create new block.%d mempool size %d nBits %08x\n",pindexPrev->nHeight+1,(int32_t)mempool.GetTotalTxSize(),pindexPrev->nBits);
             //
             // Create new block
