@@ -461,12 +461,12 @@ uint64_t PAX_fiatdest(char *destaddr,uint8_t pubkey33[33],char *coinaddr,int32_t
 int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
 #define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
 
-UniValue paxdeposit(const Array& params, bool fHelp)
+UniValue paxdeposit(const UniValue& params, bool fHelp)
 {
     uint64_t komodoshis = 0; char destaddr[64]; uint8_t i,pubkey33[33];
     bool fSubtractFeeFromAmount = false;
     if (!EnsureWalletIsAvailable(fHelp))
-        return Value::null;
+        return UniValue::null;
     if (fHelp || params.size() != 3)
         throw runtime_error("paxdeposit \"address\" [-]fiatoshis \"base\"\nnegative fiatoshis means a short position, long position capped at 100% gain");
     LOCK2(cs_main, pwalletMain->cs_wallet);
