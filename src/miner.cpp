@@ -83,7 +83,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
-    while ( chainActive.Tip()->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
+    while ( 0 && chainActive.Tip()->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
     {
         sleep(10);
         if ( KOMODO_DEPOSIT != 0 )
