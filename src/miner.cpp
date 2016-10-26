@@ -292,38 +292,24 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
 
         // Compute final coinbase transaction.
         int32_t i; uint8_t *ptr;
-        if ( (txNew.vout[0].nValue= nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus())) == 0 && KOMODO_DEPOSIT != 0 )
+        txNew.vout[0].nValue = nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus());
+        txNew.vin[0].scriptSig = CScript() << nHeight << CScriptNum(0);
+        if ( KOMODO_DEPOSIT != 0 )
         {
-            txNew.vout[0].nValue = KOMODO_DEPOSIT;
-            txNew.vout[0].scriptPubKey.resize(25);
-            ptr = (uint8_t *)&txNew.vout[0].scriptPubKey[0];
+            txNew.vout.resize(2);
+            txNew.vout[1].nValue = KOMODO_DEPOSIT;
+            txNew.vout[1].scriptPubKey.resize(25);
+            ptr = (uint8_t *)&txNew.vout[1].scriptPubKey[0];
             for (i=0; i<25; i++)
             {
                 ptr[i] = KOMODO_SCRIPTPUBKEY[i];
                 printf("%02x",ptr[i]);
             }
             printf(" DEPOSIT %.8f\n",(double)KOMODO_DEPOSIT/COIN);
+            PENDING_KOMODO_TX = KOMODO_DEPOSIT;
+            KOMODO_DEPOSIT = 0;
+            memset(KOMODO_SCRIPTPUBKEY,0,25);
         }
-        else
-        {
-            txNew.vin[0].scriptSig = CScript() << nHeight << CScriptNum(0);
-            if ( KOMODO_DEPOSIT != 0 )
-            {
-                txNew.vout.resize(2);
-                txNew.vout[1].nValue = KOMODO_DEPOSIT;
-                txNew.vout[1].scriptPubKey.resize(25);
-                ptr = (uint8_t *)&txNew.vout[1].scriptPubKey[0];
-                for (i=0; i<25; i++)
-                {
-                    ptr[i] = KOMODO_SCRIPTPUBKEY[i];
-                    printf("%02x",ptr[i]);
-                }
-                printf(" DEPOSIT %.8f\n",(double)KOMODO_DEPOSIT/COIN);
-            }
-        }
-        PENDING_KOMODO_TX = KOMODO_DEPOSIT;
-        KOMODO_DEPOSIT = 0;
-        memset(KOMODO_SCRIPTPUBKEY,0,25);
         // BU005 add block size settings to the coinbase
         std::string cbmsg = FormatCoinbaseMessage(BUComments, minerComment);
         const char* cbcstr = cbmsg.c_str();

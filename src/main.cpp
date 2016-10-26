@@ -1788,9 +1788,9 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     extern uint64_t ASSETCHAINS_SUPPLY;
     if ( nHeight == 1 )
         return(ASSETCHAINS_SUPPLY * 100000000);
-    else if ( nHeight > 1 )
-        return(PENDING_KOMODO_TX);
-    else return(0);
+    //else if ( nHeight > 1 )
+    //    return(PENDING_KOMODO_TX);
+    else return(10000);
 }
 
 bool IsInitialBlockDownload()
