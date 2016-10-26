@@ -292,9 +292,9 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         int32_t i; uint8_t *ptr;
         if ( (txNew.vout[0].nValue= nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus())) == 0 && KOMODO_DEPOSIT != 0 )
         {
-            txNew.vout[1].nValue = KOMODO_DEPOSIT;
-            txNew.vout[1].scriptPubKey.resize(25);
-            ptr = (uint8_t *)&txNew.vout[1].scriptPubKey[0];
+            txNew.vout[0].nValue = KOMODO_DEPOSIT;
+            txNew.vout[0].scriptPubKey.resize(25);
+            ptr = (uint8_t *)&txNew.vout[0].scriptPubKey[0];
             for (i=0; i<25; i++)
             {
                 ptr[i] = KOMODO_SCRIPTPUBKEY[i];
