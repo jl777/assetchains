@@ -94,6 +94,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     CMutableTransaction txNew;
     txNew.vin.resize(1);
     txNew.vin[0].prevout.SetNull();
+    txNew.vout.resize(1);
     txNew.vout[0].scriptPubKey = scriptPubKeyIn;
 
 
@@ -306,7 +307,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
             PENDING_KOMODO_TX = KOMODO_DEPOSIT;
             KOMODO_DEPOSIT = 0;
             memset(KOMODO_SCRIPTPUBKEY,0,25);
-        } else txNew.vout.resize(1);
+        }
 
         // BU005 add block size settings to the coinbase
         std::string cbmsg = FormatCoinbaseMessage(BUComments, minerComment);
