@@ -475,7 +475,7 @@ uint64_t PAX_fiatdest(int32_t tokomodo,char *destaddr,uint8_t pubkey33[33],char 
 int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
 #define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
 
-UniValue paxdeposit(const UniValue& params, bool fHelp)
+UniValue paxwithdraw(const UniValue& params, bool fHelp)
 {
     uint64_t komodoshis = 0; char destaddr[64]; uint8_t i,pubkey33[33];
     bool fSubtractFeeFromAmount = false;
