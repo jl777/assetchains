@@ -1775,6 +1775,7 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
+    extern uint64_t PENDING_KOMODO_TX;
     /*int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
@@ -1787,7 +1788,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     extern uint64_t ASSETCHAINS_SUPPLY;
     if ( nHeight == 1 )
         return(ASSETCHAINS_SUPPLY * 100000000);
-    else return(0);
+    else return(PENDING_KOMODO_TX);
 }
 
 bool IsInitialBlockDownload()

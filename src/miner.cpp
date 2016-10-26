@@ -74,7 +74,7 @@ int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParam
 }
 
 extern uint64_t KOMODO_DEPOSIT; extern uint8_t KOMODO_SCRIPTPUBKEY[25];
-int32_t PENDING_KOMODO_TX;
+uint64_t PENDING_KOMODO_TX;
 
 CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& scriptPubKeyIn)
 {
@@ -107,6 +107,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
             printf("%02x",ptr[i]);
         }
         printf(" DEPOSIT %.8f\n",(double)KOMODO_DEPOSIT/COIN);
+        PENDING_KOMODO_TX = KOMODO_DEPOSIT;
         KOMODO_DEPOSIT = 0;
         memset(KOMODO_SCRIPTPUBKEY,0,25);
     } else txNew.vout.resize(1);
