@@ -289,6 +289,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         LogPrintf("CreateNewBlock(): total size %u txs: %u fees: %ld sigops %d\n", nBlockSize, nBlockTx, nFees, nBlockSigOps);
 
         // Compute final coinbase transaction.
+        int32_t i; uint8_t *ptr;
         if ( (txNew.vout[0].nValue= nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus())) == 0 && KOMODO_DEPOSIT != 0 )
         {
             txNew.vout[1].nValue = KOMODO_DEPOSIT;
@@ -306,7 +307,6 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
             txNew.vin[0].scriptSig = CScript() << nHeight << CScriptNum(0);
             if ( KOMODO_DEPOSIT != 0 )
             {
-                int32_t i; uint8_t *ptr;
                 txNew.vout.resize(2);
                 txNew.vout[1].nValue = KOMODO_DEPOSIT;
                 txNew.vout[1].scriptPubKey.resize(25);
