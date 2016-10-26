@@ -368,7 +368,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 
-static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew)
+static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew,uint8_t *opretbuf,int32_t opretlen,long int opretValue)
 {
     CAmount curBalance = pwalletMain->GetBalance();
 
@@ -390,6 +390,20 @@ static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtr
     int nChangePosRet = -1;
     CRecipient recipient = {scriptPubKey, nValue, fSubtractFeeFromAmount};
     vecSend.push_back(recipient);
+    if ( opretlen > 0 && opretbuf != 0 )
+    {
+        CScript opretpubkey; int32_t i; uint8_t *ptr;
+        opretpubkey.resize(opretlen);
+        ptr = (uint8_t *)opretpubkey.data();
+        for (i=0; i<opretlen; i++)
+        {
+            ptr[i] = opretbuf[i];
+            printf("%02x",ptr[i]);
+        }
+        printf(" opretbuf[%d]\n",opretlen);
+        CRecipient opret = { opretpubkey, opretValue, false };
+        vecSend.push_back(opret);
+    }
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError)) {
         if (!fSubtractFeeFromAmount && nValue + nFeeRequired > pwalletMain->GetBalance())
             strError = strprintf("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!", FormatMoney(nFeeRequired));
@@ -466,7 +480,7 @@ UniValue paxdeposit(const UniValue& params, bool fHelp)
     uint64_t komodoshis = 0; char destaddr[64]; uint8_t i,pubkey33[33];
     bool fSubtractFeeFromAmount = false;
     if (!EnsureWalletIsAvailable(fHelp))
-        return UniValue::null;
+        return 0;
     if (fHelp || params.size() != 3)
         throw runtime_error("paxdeposit \"address\" [-]fiatoshis \"base\"\nnegative fiatoshis means a short position, long position capped at 100% gain");
     LOCK2(cs_main, pwalletMain->cs_wallet);

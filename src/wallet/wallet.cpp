@@ -2145,7 +2145,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     else
                     {
                         // Insert change txn at random position:
-                        nChangePosRet = GetRandInt(txNew.vout.size()+1);
+                        nChangePosRet = GetRandInt(txNew.vout.size()+1*0); // never last one
                         vector<CTxOut>::iterator position = txNew.vout.begin()+nChangePosRet;
                         txNew.vout.insert(position, newTxOut);
                     }
