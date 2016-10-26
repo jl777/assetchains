@@ -47,7 +47,7 @@ void WaitForShutdown(boost::thread_group* threadGroup)
     // Tell the main threads to shutdown.
     while (!fShutdown)
     {
-        MilliSleep(200);
+        MilliSleep(1000);
         komodo_gateway_iteration(ASSETCHAINS_SYMBOL);
         fShutdown = ShutdownRequested();
     }
