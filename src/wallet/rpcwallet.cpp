@@ -489,7 +489,6 @@ UniValue paxwithdraw(const UniValue& params, bool fHelp)
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Bitcoin address");
     int64_t fiatoshis = atof(params[1].get_str().c_str()) * COIN;
-    //std::string base = params[2].get_str();
     std::string dest;
     komodoshis = PAX_fiatdest(1,destaddr,pubkey33,(char *)params[0].get_str().c_str(),chainActive.Tip()->nHeight,ASSETCHAINS_SYMBOL,fiatoshis);
     dest.append(destaddr);
@@ -499,7 +498,7 @@ UniValue paxwithdraw(const UniValue& params, bool fHelp)
     
     for (i=0; i<33; i++)
         printf("%02x",pubkey33[i]);
-    printf(" ht.%d srcaddr.(%s) %s fiatoshis.%lld -> dest.(%s) komodoshis.%llu\n",chainActive.Tip()->nHeight,(char *)params[0].get_str().c_str(),(char *)base.c_str(),(long long)fiatoshis,destaddr,(long long)komodoshis);
+    printf(" ht.%d srcaddr.(%s) %s fiatoshis.%lld -> dest.(%s) komodoshis.%llu\n",chainActive.Tip()->nHeight,(char *)params[0].get_str().c_str(),ASSETCHAINS_SYMBOL,(long long)fiatoshis,destaddr,(long long)komodoshis);
     EnsureWalletIsUnlocked();
     CWalletTx wtx;
     uint8_t opretbuf[64]; int32_t opretlen; uint64_t fee = komodoshis / 1000;
