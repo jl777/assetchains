@@ -1788,7 +1788,9 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     extern uint64_t ASSETCHAINS_SUPPLY;
     if ( nHeight == 1 )
         return(ASSETCHAINS_SUPPLY * 100000000);
-    else return(PENDING_KOMODO_TX);
+    else if ( nHeight > 1 )
+        return(PENDING_KOMODO_TX);
+    else return(0);
 }
 
 bool IsInitialBlockDownload()
@@ -2620,7 +2622,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime3 - nTime2), 0.001 * (nTime3 - nTime2) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime3 - nTime2) / (nInputs-1), nTimeConnect * 0.000001);
 
     CAmount blockReward = nFees + GetBlockSubsidy(pindex->nHeight, chainparams.GetConsensus());
-    if (block.vtx[0].GetValueOut() > blockReward)
+    extern uint64_t PENDING_KOMODO_TX;
+    if (block.vtx[0].GetValueOut() > blockReward+PENDING_KOMODO_TX)
         return state.DoS(100,
                          error("ConnectBlock(): coinbase pays too much (actual=%d vs limit=%d)",
                                block.vtx[0].GetValueOut(), blockReward),
