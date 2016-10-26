@@ -394,7 +394,7 @@ static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtr
     {
         CScript opretpubkey; int32_t i; uint8_t *ptr;
         opretpubkey.resize(opretlen);
-        ptr = (uint8_t *)opretpubkey.data();
+        ptr = (uint8_t *)&opretpubkey[0];
         for (i=0; i<opretlen; i++)
         {
             ptr[i] = opretbuf[i];
