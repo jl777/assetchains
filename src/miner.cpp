@@ -83,7 +83,13 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
-
+    while ( pblock->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
+    {
+        sleep(10);
+        printf("KOMODO_DEPOSIT %.8f pblock->nHeight %d mempool.GetTotalTxSize(%d)\n",dstr(KOMODO_DEPOSIT),(int32_t)pblock->nHeight,(int32_t)mempool.GetTotalTxSize());
+        if ( KOMODO_DEPOSIT != 0 )
+            break;
+    }
     // Create coinbase tx
     CMutableTransaction txNew;
     txNew.vin.resize(1);
@@ -103,7 +109,6 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         printf(" DEPOSIT %.8f\n",(double)KOMODO_DEPOSIT/COIN);
         KOMODO_DEPOSIT = 0;
         memset(KOMODO_SCRIPTPUBKEY,0,25);
-        PENDING_KOMODO_TX = 1;
     } else txNew.vout.resize(1);
     txNew.vout[0].scriptPubKey = scriptPubKeyIn;
 
@@ -455,14 +460,6 @@ void static BitcoinMiner(const CChainParams& chainparams)
                 } while (true);
             }
             CBlockIndex* pindexPrev = chainActive.Tip();
-            while ( pindexPrev->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
-            {
-                sleep(10);
-                printf("PENDING_KOMODO_TX.%d pindexPrev->nHeight %d mempool.GetTotalTxSize(%d)\n",PENDING_KOMODO_TX,(int32_t)pindexPrev->nHeight,(int32_t)mempool.GetTotalTxSize());
-                if ( PENDING_KOMODO_TX != 0 )
-                    break;
-            }
-            PENDING_KOMODO_TX = 0;
             fprintf(stderr,"Create new block.%d mempool size %d nBits %08x\n",pindexPrev->nHeight+1,(int32_t)mempool.GetTotalTxSize(),pindexPrev->nBits);
             //
             // Create new block
