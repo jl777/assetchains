@@ -457,7 +457,8 @@ void static BitcoinMiner(const CChainParams& chainparams)
             CBlockIndex* pindexPrev = chainActive.Tip();
             while ( pindexPrev->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
             {
-                sleep(1);
+                sleep(10);
+                printf("PENDING_KOMODO_TX.%d pindexPrev->nHeight > 1 && mempool.GetTotalTxSize()\n",PENDING_KOMODO_TX,(int32_t)pindexPrev->nHeight,(int32_t)mempool.GetTotalTxSize());
                 if ( PENDING_KOMODO_TX != 0 )
                     break;
             }
