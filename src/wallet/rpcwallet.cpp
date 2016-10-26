@@ -471,7 +471,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
     return wtx.GetHash().GetHex();
 }
 
-uint64_t PAX_fiatdest(char *destaddr,uint8_t pubkey33[33],char *coinaddr,int32_t height,char *base,int64_t fiatoshis);
+uint64_t PAX_fiatdest(int32_t tokomodo,char *destaddr,uint8_t pubkey33[33],char *coinaddr,int32_t height,char *base,int64_t fiatoshis);
 int32_t komodo_opreturnscript(uint8_t *script,uint8_t type,uint8_t *opret,int32_t opretlen);
 #define CRYPTO777_KMDADDR "RXL3YXG2ceaB6C5hfJcN4fvmLH2C34knhA"
 
@@ -490,7 +490,7 @@ UniValue paxdeposit(const UniValue& params, bool fHelp)
     int64_t fiatoshis = atof(params[1].get_str().c_str()) * COIN;
     std::string base = params[2].get_str();
     std::string dest;
-    komodoshis = PAX_fiatdest(destaddr,pubkey33,(char *)params[0].get_str().c_str(),chainActive.Tip()->nHeight,(char *)base.c_str(),fiatoshis);
+    komodoshis = PAX_fiatdest(1,destaddr,pubkey33,(char *)params[0].get_str().c_str(),chainActive.Tip()->nHeight,(char *)base.c_str(),fiatoshis);
     dest.append(destaddr);
     CBitcoinAddress destaddress(CRYPTO777_KMDADDR);
     if (!destaddress.IsValid())
@@ -505,7 +505,7 @@ UniValue paxdeposit(const UniValue& params, bool fHelp)
     if ( fee < 10000 )
         fee = 10000;
     opretlen = komodo_opreturnscript(opretbuf,'D',pubkey33,33);
-    SendMoney(destaddress.Get(),fee,fSubtractFeeFromAmount,wtx,opretbuf,opretlen,komodoshis);
+    SendMoney(destaddress.Get(),fee,fSubtractFeeFromAmount,wtx,opretbuf,opretlen,fiatoshis);
     return wtx.GetHash().GetHex();
 }
 
