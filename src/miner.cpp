@@ -73,8 +73,7 @@ int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParam
     return nNewTime - nOldTime;
 }
 
-extern uint64_t KOMODO_DEPOSIT; extern uint8_t KOMODO_SCRIPTPUBKEY[25];
-uint64_t PENDING_KOMODO_TX;
+extern uint64_t KOMODO_DEPOSIT,PENDING_KOMODO_TX;
 
 CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& scriptPubKeyIn)
 {
@@ -294,22 +293,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         int32_t i; uint8_t *ptr;
         txNew.vout[0].nValue = nFees + GetBlockSubsidy(nHeight, chainparams.GetConsensus());
         txNew.vin[0].scriptSig = CScript() << nHeight << CScriptNum(0);
-        if ( KOMODO_DEPOSIT != 0 )
-        {
-            txNew.vout.resize(2);
-            txNew.vout[1].nValue = KOMODO_DEPOSIT;
-            txNew.vout[1].scriptPubKey.resize(25);
-            ptr = (uint8_t *)&txNew.vout[1].scriptPubKey[0];
-            for (i=0; i<25; i++)
-            {
-                ptr[i] = KOMODO_SCRIPTPUBKEY[i];
-                printf("%02x",ptr[i]);
-            }
-            printf(" DEPOSIT %.8f\n",(double)KOMODO_DEPOSIT/COIN);
-            PENDING_KOMODO_TX = KOMODO_DEPOSIT;
-            KOMODO_DEPOSIT = 0;
-            memset(KOMODO_SCRIPTPUBKEY,0,25);
-        }
+        komodo_gateway_deposits(txNew);
         // BU005 add block size settings to the coinbase
         std::string cbmsg = FormatCoinbaseMessage(BUComments, minerComment);
         const char* cbcstr = cbmsg.c_str();
