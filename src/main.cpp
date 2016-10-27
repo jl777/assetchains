@@ -3514,7 +3514,8 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool f
 bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bool fCheckMerkleRoot, bool fConservative)
 {
     // These are checks that are independent of context.
-
+    if ( komodo_check_deposit(block) < 0 )
+        return(false);
     if (block.fChecked)
         return true;
 
