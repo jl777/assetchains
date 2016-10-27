@@ -74,6 +74,7 @@ int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParam
 }
 
 extern uint64_t KOMODO_DEPOSIT,PENDING_KOMODO_TX;
+extern uint32_t KOMODO_INITDONE;
 void komodo_gateway_deposits(CMutableTransaction& txNew);
 
 CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& scriptPubKeyIn)
@@ -86,6 +87,8 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     while ( chainActive.Tip()->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
     {
         sleep(10);
+        if ( KOMODO_INITDONE == 0 || time(NULL) < KOMODO_INITDONE+60 )
+            continue;
         if ( KOMODO_DEPOSIT != 0 )
         {
             printf("KOMODO_DEPOSIT %llu pblock->nHeight %d mempool.GetTotalTxSize(%d)\n",(long long)KOMODO_DEPOSIT,(int32_t)chainActive.Tip()->nHeight,(int32_t)mempool.GetTotalTxSize());
