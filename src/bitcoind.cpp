@@ -95,8 +95,8 @@ bool AppInit(int argc, char* argv[])
     ASSETCHAINS_PORT = GetArg("-ac_port",8000 + (ASSETCHAINS_MAGIC % 7777));
     if ( ASSETCHAINS_SYMBOL[0] == '-' )
     {
-        ASSETCHAIN_SHORTFLAG = 1;
-        for (i=0; ASSETCHAIN_SYMBOL[i+1]!=0; i++)
+        ASSETCHAINS_SHORTFLAG = 1;
+        for (i=0; ASSETCHAINS_SYMBOL[i+1]!=0; i++)
             ASSETCHAINS_SYMBOL[i] = ASSETCHAINS_SYMBOL[i+1];
     }
     fprintf(stderr,"after args: %c%s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SHORTFLAG!=0?'-':'+',ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
