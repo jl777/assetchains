@@ -189,8 +189,8 @@ bool AppInit(int argc, char* argv[])
         //BaseParams().nRPCPort = ASSETCHAINS_PORT+1;
         InitLogging();
         InitParameterInteraction();
-        fRet = AppInit2(threadGroup, scheduler);
         komodo_configfile(ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT + 1);//BaseParams().nRPCPort);
+        fRet = AppInit2(threadGroup, scheduler);
     }
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");
