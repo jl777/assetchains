@@ -84,7 +84,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
-    while ( chainActive.Tip()->nHeight > 1 && mempool.GetTotalTxSize() <= 0 )
+    while ( chainActive.Tip()->nHeight > 100 && mempool.GetTotalTxSize() <= 0 )
     {
         sleep(10);
         if ( KOMODO_INITDONE == 0 || time(NULL) < KOMODO_INITDONE+60 )
