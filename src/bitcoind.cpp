@@ -190,7 +190,7 @@ bool AppInit(int argc, char* argv[])
         InitLogging();
         InitParameterInteraction();
         char *dirname;
-        while ( (dirname= GetDataDir(false).string().c_str()) == 0 || dirname[0] == 0 )
+        while ( (dirname= (char *)GetDataDir(false).string().c_str()) == 0 || dirname[0] == 0 )
         {
             fprintf(stderr,"waiting for datadir\n");
             sleep(3);
