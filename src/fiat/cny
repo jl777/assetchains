@@ -1,0 +1,25 @@
+./assetchain-cli -rpcport=13327 $1 $2 $3 $4
+after args: +CNY port.13326 magic.32d0a944 timestamp.1475772963 supply.10
+after args: +ZAR port.12883 magic.316df4fc timestamp.1475772963 supply.10
+after args: +NOK port.9206 magic.d0aa7a1e timestamp.1475772963 supply.10
+after args: +IDR port.12170 magic.527a1d90 timestamp.1475772963 supply.10
+after args: +THB port.13565 magic.f78672db timestamp.1475772963 supply.10
+after args: +KRW port.8690 magic.3d0c88a6 timestamp.1475772963 supply.10
+after args: +MXN port.14948 magic.a705b45e timestamp.1475772963 supply.10
+after args: +RUB port.13039 magic.0c676275 timestamp.1475772963 supply.10
+after args: +SEK port.15315 magic.3ebba2b7 timestamp.1475772963 supply.10
+after args: +HRK port.14554 magic.2b4b6ab0 timestamp.1475772963 supply.10
+after args: +PLN port.15636 magic.9d555328 timestamp.1475772963 supply.10
+after args: +USD port.10078 magic.b6117643 timestamp.1475772963 supply.10
+after args: +DKK port.11814 magic.b9513acc timestamp.1475772963 supply.10
+after args: +BGN port.11251 magic.6103fdfd timestamp.1475772963 supply.10
+after args: +INR port.14099 magic.a895f51a timestamp.1475772963 supply.10
+after args: +HKD port.12993 magic.20f4de39 timestamp.1475772963 supply.10
+after args: +PHP port.12283 magic.0336ab4f timestamp.1475772963 supply.10
+after args: +MYR port.8529 magic.aa1fd950 timestamp.1475772963 supply.10
+after args: +TRY port.14335 magic.cdce41ec timestamp.1475772963 supply.10
+after args: +ILS port.10934 magic.eda4a70e timestamp.1475772963 supply.10
+after args: +SGD port.10431 magic.9c32dda4 timestamp.1475772963 supply.10
+after args: +CHF port.10520 magic.e9820337 timestamp.1475772963 supply.10
+after args: +RON port.11150 magic.b5fcd485 timestamp.1475772963 supply.10
+

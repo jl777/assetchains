@@ -1,0 +1,1 @@
+./assetchain-cli -rpcport=10432 $1 $2 $3 $4
