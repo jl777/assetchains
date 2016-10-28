@@ -84,7 +84,7 @@ bool AppInit(int argc, char* argv[])
     //ASSETCHAINS_MAGIC = GetArg("-ac_magic",ASSETCHAINS_MAGIC);
     ASSETCHAINS_TIMESTAMP = GetArg("-ac_timestamp",ASSETCHAINS_TIMESTAMP);
     ASSETCHAINS_SUPPLY = GetArg("-ac_supply",10);
-    name = GetArg("-ac_name","REVS");
+    name = GetArg("-ac_name","USD");
     strncpy(ASSETCHAINS_SYMBOL,name.c_str(),sizeof(ASSETCHAINS_SYMBOL)-1);
     uint8_t buf[512]; int32_t i,len;
     len = iguana_rwnum(1,buf,sizeof(ASSETCHAINS_TIMESTAMP),(void *)&ASSETCHAINS_TIMESTAMP);
