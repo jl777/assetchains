@@ -448,6 +448,9 @@ void static BitcoinMiner(const CChainParams& chainparams)
                         break;
                     MilliSleep(1000);
                 } while (true);
+                fprintf(stderr,"found peers\n");
+                sleep(60);
+                fprintf(stderr,"start mining\n");
             }
             CBlockIndex* pindexPrev = chainActive.Tip();
             fprintf(stderr,"Create new block.%d mempool size %d nBits %08x\n",pindexPrev->nHeight+1,(int32_t)mempool.GetTotalTxSize(),pindexPrev->nBits);
