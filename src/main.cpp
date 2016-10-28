@@ -1775,15 +1775,6 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    /*int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
-    // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64)
-        return 0;
-
-    CAmount nSubsidy = 50 * COIN;
-    // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
-    nSubsidy >>= halvings;
-    return nSubsidy;*/
     extern uint64_t ASSETCHAINS_SUPPLY;
     if ( nHeight == 1 )
         return(ASSETCHAINS_SUPPLY * 100000000);
@@ -2620,10 +2611,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     CAmount blockReward = nFees + GetBlockSubsidy(pindex->nHeight, chainparams.GetConsensus());
     extern uint64_t PENDING_KOMODO_TX;
-    if (block.vtx[0].GetValueOut() > blockReward+PENDING_KOMODO_TX)
+    //if (block.vtx[0].GetValueOut() > blockReward+PENDING_KOMODO_TX)
+    if (block.vtx[0].vout[0].nValue > blockReward)
         return state.DoS(100,
-                         error("ConnectBlock(): coinbase pays too much (actual=%d vs limit=%d)",
-                               block.vtx[0].GetValueOut(), blockReward),
+                         error("ConnectBlock(): coinbase pays too much (actual=%d vs limit=%d) PENDING=%u",
+                               block.vtx[0].GetValueOut(), blockReward,PENDING_KOMODO_TX),
                                REJECT_INVALID, "bad-cb-amount");
 
     if (!control.Wait())
