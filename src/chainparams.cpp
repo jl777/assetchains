@@ -158,7 +158,7 @@ public:
         vFixedSeeds = std::vector<SeedSpec6>();
         // BITCOINUNLIMITED END
         
-        fMiningRequiresPeers = false;
+        fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
