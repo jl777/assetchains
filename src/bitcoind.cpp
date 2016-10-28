@@ -189,6 +189,13 @@ bool AppInit(int argc, char* argv[])
         //BaseParams().nRPCPort = ASSETCHAINS_PORT+1;
         InitLogging();
         InitParameterInteraction();
+        char *dirname;
+        while ( (dirname= GetDataDir(false).string().c_str()) == 0 || dirname[0] == 0 )
+        {
+            fprintf(stderr,"waiting for datadir\n");
+            sleep(3);
+        }
+        fprintf(stderr,"Got datadir.(%s)\n",dirname);
         komodo_configfile(ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT + 1);//BaseParams().nRPCPort);
         fRet = AppInit2(threadGroup, scheduler);
     }
