@@ -30,3 +30,4 @@
 ./assetchaind -ac_name=BGN -addnode=78.47.196.146 &
 ./assetchaind -ac_name=IDR -addnode=78.47.196.146 &
 ./assetchaind -ac_name=HRK -addnode=78.47.196.146 &
+./assetchaind -ac_name=REVS -addnode=78.47.196.146 &
