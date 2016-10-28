@@ -84,7 +84,6 @@ bool CDBEnv::Open(const boost::filesystem::path& pathIn)
     TryCreateDirectory(pathLogDir);
     boost::filesystem::path pathErrorFile = pathIn / "db.log";
     LogPrintf("CDBEnv::Open: LogDir=%s ErrorFile=%s\n", pathLogDir.string(), pathErrorFile.string());
-
     unsigned int nEnvFlags = 0;
     if (GetBoolArg("-privdb", DEFAULT_WALLET_PRIVDB))
         nEnvFlags |= DB_PRIVATE;
