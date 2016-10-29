@@ -78,33 +78,6 @@ bool AppInit(int argc, char* argv[])
     //
     // If Qt is used, parameters/bitcoin.conf are parsed in qt/bitcoin.cpp's main()
     ParseParameters(argc, argv);
-    extern uint16_t ASSETCHAINS_PORT; extern uint32_t ASSETCHAINS_SHORTFLAG,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,ASSETCHAIN_INIT;
-    extern char ASSETCHAINS_SYMBOL[16]; extern uint64_t ASSETCHAINS_SUPPLY; std::string name;
-    
-    //ASSETCHAINS_MAGIC = GetArg("-ac_magic",ASSETCHAINS_MAGIC);
-    ASSETCHAINS_TIMESTAMP = GetArg("-ac_timestamp",ASSETCHAINS_TIMESTAMP);
-    ASSETCHAINS_SUPPLY = GetArg("-ac_supply",10);
-    name = GetArg("-ac_name","REVS");
-    strncpy(ASSETCHAINS_SYMBOL,name.c_str(),sizeof(ASSETCHAINS_SYMBOL)-1);
-    uint8_t buf[512]; int32_t i,len;
-    len = iguana_rwnum(1,buf,sizeof(ASSETCHAINS_TIMESTAMP),(void *)&ASSETCHAINS_TIMESTAMP);
-    len += iguana_rwnum(1,&buf[len],sizeof(ASSETCHAINS_SUPPLY),(void *)&ASSETCHAINS_SUPPLY);
-    strcpy((char *)&buf[len],ASSETCHAINS_SYMBOL);
-    len += strlen(ASSETCHAINS_SYMBOL);
-    ASSETCHAINS_MAGIC = calc_crc32(0,buf,len);
-    ASSETCHAINS_PORT = GetArg("-ac_port",8000 + (ASSETCHAINS_MAGIC % 7777));
-    if ( ASSETCHAINS_SYMBOL[0] == '-' )
-    {
-        ASSETCHAINS_SHORTFLAG = 1;
-        for (i=0; ASSETCHAINS_SYMBOL[i+1]!=0; i++)
-            ASSETCHAINS_SYMBOL[i] = ASSETCHAINS_SYMBOL[i+1];
-    }
-    fprintf(stderr,"after args: %c%s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SHORTFLAG!=0?'-':'+',ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
-    while ( ASSETCHAIN_INIT == 0 )
-    {
-        sleep(10);
-    }
-    fprintf(stderr,"%s chain params initialized\n",ASSETCHAINS_SYMBOL);
     // Process help and version before taking care about datadir
     if (mapArgs.count("-?") || mapArgs.count("-h") ||  mapArgs.count("-help") || mapArgs.count("-version"))
     {
