@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-uint16_t ASSETCHAINS_PORT;
+uint16_t ASSETCHAINS_PORT = 8777;
 
 const std::string CBaseChainParams::MAIN = "main";
 const std::string CBaseChainParams::UNL = "nol";
