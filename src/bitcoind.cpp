@@ -102,7 +102,7 @@ bool AppInit(int argc, char* argv[])
     fprintf(stderr,"after args: %c%s port.%u magic.%08x timestamp.%u supply.%u\n",ASSETCHAINS_SHORTFLAG!=0?'-':'+',ASSETCHAINS_SYMBOL,ASSETCHAINS_PORT,ASSETCHAINS_MAGIC,ASSETCHAINS_TIMESTAMP,(int32_t)ASSETCHAINS_SUPPLY);
     while ( ASSETCHAIN_INIT == 0 )
     {
-        sleep(1);
+        sleep(10);
     }
     fprintf(stderr,"%s chain params initialized\n",ASSETCHAINS_SYMBOL);
     // Process help and version before taking care about datadir
